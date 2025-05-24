@@ -78,3 +78,11 @@ CREATE TABLE recipes_read (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 )
+
+CREATE INDEX idx_recipes_read_title_fts ON recipes_read USING GIN (to_tsvector('polish', title));
+CREATE INDEX idx_recipes_read_difficulty ON recipes_read (difficulty);
+CREATE INDEX idx_recipes_read_tagsON recipes_read USING GIN (tags);
+CREATE INDEX idx_recipes_read_ingredients ON recipes_read USING GIN (ingredients);
+CREATE INDEX idx_recipes_read_time ON recipes_read (time);
+CREATE INDEX idx_recipes_read_portions ON recipes_read (portions);
+CREATE INDEX idx_recipes_read_avg_rating ON recipes_read (average_rating);
