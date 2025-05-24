@@ -1,3 +1,5 @@
+CREATE TYPE difficulty_level AS ENUM ('łatwy', 'średni', 'trudny');
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -21,6 +23,9 @@ CREATE TABLE recipes_write (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
+    time INT CHECK (time > 0 AND time < 600),
+    portions INT CHECK (portions > 0 AND portions <= 20),
+    difficulty difficulty_level,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -63,10 +68,13 @@ CREATE TABLE recipes_read (
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
     description TEXT,
+    time INT CHECK (time > 0 AND time < 600),
+    portions INT CHECK (portions > 0 AND portions <= 20),
+    difficulty difficulty_level,
     average_rating NUMERIC(2,1) CHECK (rating >= 0.0 AND rating <= 5.0),
     tags TEXT[],
     steps TEXT[],
-    ingredients TEXT[]
+    ingredients TEXT[],
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 )
