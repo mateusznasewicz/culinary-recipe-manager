@@ -1,4 +1,4 @@
-CREATE TYPE difficulty_level AS ENUM ('łatwy', 'średni', 'trudny');
+CREATE TYPE difficulty_level AS ENUM ('ŁATWY', 'ŚREDNI', 'TRUDNY');
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -58,7 +58,7 @@ CREATE TABLE ingredients_units_write (
     id SERIAL PRIMARY KEY,
     ingredient_id SERIAL REFERENCES ingredients_write(id) ON DELETE CASCADE,
     unit_id SERIAL REFERENCES units_write(id) ON DELETE CASCADE,
-    quantity NUMERIC(2,1) NOT NULL
+    quantity NUMERIC(5,1) NOT NULL
 );
 
 CREATE TABLE tags_write (

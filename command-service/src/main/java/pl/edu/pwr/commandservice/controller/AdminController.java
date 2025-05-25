@@ -10,7 +10,8 @@ import pl.edu.pwr.commandservice.service.admin.IngredientService;
 import pl.edu.pwr.commandservice.service.admin.TagService;
 import pl.edu.pwr.commandservice.service.admin.UnitService;
 
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -19,19 +20,19 @@ public class AdminController {
     private final IngredientService ingredientService;
 
     @PostMapping("/tag")
-    public ResponseEntity<String> addTag(@RequestParam String tag) {
+    public ResponseEntity<String> addTag(@RequestBody Tag tag) {
         tagService.save(tag);
         return ResponseEntity.ok("Tag added");
     }
 
     @PostMapping("/unit")
-    public ResponseEntity<String> addUnit(@RequestParam String unit) {
+    public ResponseEntity<String> addUnit(@RequestBody Unit unit) {
         unitService.save(unit);
         return ResponseEntity.ok("Unit added");
     }
 
     @PostMapping("/ingredient")
-    public ResponseEntity<String> addIngredient(@RequestParam String ingredient) {
+    public ResponseEntity<String> addIngredient(@RequestBody Ingredient ingredient) {
         ingredientService.save(ingredient);
         return ResponseEntity.ok("Ingredient added");
     }

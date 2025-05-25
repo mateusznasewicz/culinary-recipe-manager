@@ -49,7 +49,7 @@ public class JwtAuthFilter implements GatewayFilter, Ordered {
                 .header("X-User-Id", username)
                 .header("X-User-Roles", jwtService.getRole(token))
                 .build();
-
+        logger.info(jwtService.getRole(token));
         return chain.filter(exchange.mutate().request(modifiedRequest).build());
     }
 

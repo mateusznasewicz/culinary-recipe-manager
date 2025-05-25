@@ -5,8 +5,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import pl.edu.pwr.apigateway.auth.AuthRepository;
+import pl.edu.pwr.apigateway.entity.User;
+import reactor.core.publisher.Mono;
 
 import java.security.Key;
 import java.util.Date;
@@ -15,6 +20,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     @Value("${jwt.secret}")
@@ -23,11 +29,17 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
-    public String generateToken(String username) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", "USER");
-        return buildToken(claims, username);
+    private final AuthRepository authRepository;
+
+    public Mono<String> generateToken(String username) {
+        return authRepository.findByUsername(username)
+                .map(user -> {
+                    Map<String, Object> claims = new HashMap<>();
+                    claims.put("role", user.getRole());
+                    return buildToken(claims, username);
+                });
     }
+
 
     public boolean isTokenValid(String token) {
         try{

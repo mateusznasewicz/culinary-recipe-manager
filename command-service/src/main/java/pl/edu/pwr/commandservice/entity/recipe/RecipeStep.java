@@ -3,11 +3,13 @@ package pl.edu.pwr.commandservice.entity.recipe;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "recipe_steps_write")
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecipeStep {
@@ -21,7 +23,7 @@ public class RecipeStep {
     private Recipe recipe;
 
     @Column(nullable = false)
-    private Integer step_number;
+    private Integer stepNumber;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;

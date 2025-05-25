@@ -7,6 +7,6 @@ import pl.edu.pwr.commandservice.repository.admin.UnitRepository;
 @Service
 public class UnitService extends AdminService<Unit> {
     public UnitService(UnitRepository repository) {
-        super(repository, Unit.class);
+        super(repository);
     }
 }

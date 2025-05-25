@@ -3,7 +3,7 @@
   "description": "Classic Italian pasta dish...",
   "time": 30,
   "portions": 4,
-  "difficultyLevel": "średni",
+  "difficulty": "ŚREDNI",
   "recipeSteps": [
     {
       "stepNumber": 1,
@@ -24,22 +24,22 @@
   ],
   "ingredientUnits": [
     {
-      "ingredient": {
-        "name": "Spaghetti"
-      },
-      "unit": {
-        "name": "grams"
-      },
+      "ingredientId": 2,
+      "unitId": 1,
       "quantity": 400.0
     },
     {
-      "ingredient": {
-        "name": "Pancetta"
-      },
-      "unit": {
-        "name": "grams"
-      },
+      
+      "ingredientId": 1,
+      "unitId": 1,
       "quantity": 150.0
     }
   ]
+}
+
+{
+  "userId": 9,
+  "recipeId": 16,
+  "rating": 4.5,
+  "comment": "Bardzo smaczne, polecam!"
 }

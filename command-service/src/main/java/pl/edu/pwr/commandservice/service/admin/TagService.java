@@ -7,6 +7,6 @@ import pl.edu.pwr.commandservice.repository.admin.TagRepository;
 @Service
 public class TagService extends AdminService<Tag> {
     public TagService(TagRepository repository) {
-        super(repository, Tag.class);
+        super(repository);
     }
 }

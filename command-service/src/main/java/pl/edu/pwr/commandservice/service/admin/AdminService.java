@@ -8,26 +8,18 @@ import pl.edu.pwr.commandservice.repository.admin.NamedEntityRepository;
 public class AdminService<T extends NamedEntity> implements GenericService<T, Long> {
 
     private final NamedEntityRepository<T> repository;
-    private final Class<T> clazz;
 
-    public AdminService(NamedEntityRepository<T> repository, Class<T> clazz) {
+    public AdminService(NamedEntityRepository<T> repository) {
         this.repository = repository;
-        this.clazz = clazz;
     }
 
     @Override
-    public void save(String name) {
-        repository.findByName(name).ifPresent(existing -> {
-            throw new IllegalArgumentException("Entity with name '" + name + "' already exists.");
+    public void save(T entity) {
+        repository.findByName(entity.getName()).ifPresent(existing -> {
+            throw new IllegalArgumentException("Entity with name '" + entity.getName() + "' already exists.");
         });
 
-        try {
-            T entity = clazz.getDeclaredConstructor().newInstance();
-            entity.setName(name);
-            repository.save(entity);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create entity via reflection", e);
-        }
+        repository.save(entity);
     }
 
     @Override

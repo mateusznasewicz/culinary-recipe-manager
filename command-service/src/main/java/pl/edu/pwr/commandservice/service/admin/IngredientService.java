@@ -7,6 +7,6 @@ import pl.edu.pwr.commandservice.repository.admin.IngredientRepository;
 @Service
 public class IngredientService extends AdminService<Ingredient> {
     public IngredientService(IngredientRepository repository) {
-        super(repository, Ingredient.class);
+        super(repository);
     }
 }

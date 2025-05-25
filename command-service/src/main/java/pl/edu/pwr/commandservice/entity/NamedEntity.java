@@ -12,4 +12,8 @@ public abstract class NamedEntity {
 
     @Column(nullable = false, unique = true)
     protected String name;
+
+    public String toString(){
+        return name;
+    }
 }

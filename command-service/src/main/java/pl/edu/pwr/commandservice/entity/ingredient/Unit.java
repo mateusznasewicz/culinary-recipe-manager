@@ -11,6 +11,5 @@ import java.util.Set;
 
 @Entity
 @Table(name = "units_write")
-@Data
 public class Unit extends NamedEntity {
 }

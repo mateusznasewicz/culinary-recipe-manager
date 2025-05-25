@@ -19,14 +19,15 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/login")
-    public Mono<ResponseEntity<LoginResponse>> login(@RequestBody @Valid LoginRequest request){
+    public Mono<ResponseEntity<LoginResponse>> login(@RequestBody @Valid LoginRequest request) {
         return authService.login(request.username(), request.password())
-                .then(Mono.fromCallable(() -> {
-                    String token = jwtService.generateToken(request.username());
+                .then(jwtService.generateToken(request.username()))
+                .map(token -> {
                     LoginResponse response = new LoginResponse(token, "Bearer", "Login successful");
                     return ResponseEntity.ok(response);
-        }));
+                });
     }
+
 
     @PostMapping("/register")
     public Mono<ResponseEntity<String>> register(@RequestBody @Valid RegisterRequest request){
