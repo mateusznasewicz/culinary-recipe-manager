@@ -1,8 +1,10 @@
 package pl.edu.pwr.commandservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import pl.edu.pwr.commandservice.dto.RecipeMapper;
+import pl.edu.pwr.commandservice.dto.recipe.RecipeDTO;
+import pl.edu.pwr.commandservice.dto.recipe.RecipeMapper;
 import pl.edu.pwr.commandservice.entity.Tag;
 import pl.edu.pwr.commandservice.entity.ingredient.IngredientUnit;
 import pl.edu.pwr.commandservice.entity.recipe.Recipe;
@@ -25,8 +27,10 @@ public class RecipeService {
     private final MessagePublisher messagePublisher;
     private final RecipeMapper recipeMapper;
 
-    //TODO rozdzielic odpowiedzialnosc, obsluzyc wyjatki jak podany zly tag/unit/ingredient
-    public void save(Recipe recipe) {
+    //TODO nie zapisywac tych samych (quantity,ingredient,unit)
+    public void save(RecipeDTO recipeDTO) {
+        Recipe recipe = recipeMapper.toEntity(recipeDTO);
+
         Set<RecipeStep> recipeSteps = recipe.getRecipeSteps();
         recipeSteps.forEach(recipeStep -> recipeStep.setRecipe(recipe));
 
@@ -37,7 +41,11 @@ public class RecipeService {
         Set<Tag> tags = tagRepository.findAllByNameIn(tagsNames);
         recipe.setTags(tags);
 
+        if(tagsNames.size() != tags.size()) {
+            throw new DataIntegrityViolationException("Some tag IDs are invalid");
+        }
+
         recipeRepository.save(recipe);
-        messagePublisher.sendRecipeMessage(recipeMapper.toDTO(recipe));
+//        messagePublisher.sendRecipeMessage(recipeMapper.toEvent(recipeDTO));
     }
 }

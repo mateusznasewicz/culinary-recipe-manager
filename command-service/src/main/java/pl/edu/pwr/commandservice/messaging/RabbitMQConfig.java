@@ -1,7 +1,5 @@
 package pl.edu.pwr.commandservice.messaging;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -13,7 +11,7 @@ import org.springframework.amqp.support.converter.DefaultJackson2JavaTypeMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.edu.pwr.commandservice.dto.RecipeDTO;
+import pl.edu.pwr.commandservice.dto.recipe.RecipeEvent;
 
 import java.util.Map;
 
@@ -48,7 +46,7 @@ public class RabbitMQConfig {
     @Bean
     public Jackson2JsonMessageConverter messageConverter() {
         DefaultJackson2JavaTypeMapper typeMapper = new DefaultJackson2JavaTypeMapper();
-        Map<String, Class<?>> idClassMapping = Map.of("RecipeDTO", RecipeDTO.class);
+        Map<String, Class<?>> idClassMapping = Map.of("RecipeDTO", RecipeEvent.class);
         typeMapper.setIdClassMapping(idClassMapping);
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
         converter.setJavaTypeMapper(typeMapper);

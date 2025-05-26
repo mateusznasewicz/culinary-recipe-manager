@@ -1,11 +1,11 @@
-package pl.edu.pwr.commandservice.dto;
+package pl.edu.pwr.commandservice.dto.recipe;
 
 import pl.edu.pwr.commandservice.enums.DifficultyLevel;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record RecipeDTO(
+public record RecipeEvent(
         Long id,
         String title,
         Integer authorId,

@@ -1,0 +1,38 @@
+{
+  "authorId":1,
+  "title": "Spaghetti Carbonara",
+  "description": "Classic Italian pasta dish...",
+  "time": 30,
+  "portions": 4,
+  "difficulty": "ŚREDNI",
+  "recipeSteps": [
+    {
+      "stepNumber": 1,
+      "description": "Boil water and cook spaghetti until al dente."
+    },
+    {
+      "stepNumber": 2,
+      "description": "Fry pancetta until crispy."
+    }
+  ],
+  "tags": [
+    {
+      "name": "Italian"
+    },
+    {
+      "name": "Meat"
+    }
+  ],
+  "ingredientUnits": [
+    {
+      "ingredientId": 2,
+      "unitId": 1,
+      "quantity": 400.0
+    },
+    {
+      "ingredientId": 1,
+      "unitId": 1,
+      "quantity": 150.0
+    }
+  ]
+}
