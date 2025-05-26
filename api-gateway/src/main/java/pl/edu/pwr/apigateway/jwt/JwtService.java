@@ -7,10 +7,8 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.apigateway.auth.AuthRepository;
-import pl.edu.pwr.apigateway.entity.User;
 import reactor.core.publisher.Mono;
 
 import java.security.Key;
