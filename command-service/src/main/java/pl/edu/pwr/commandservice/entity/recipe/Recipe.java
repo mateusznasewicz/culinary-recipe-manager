@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnTransformer;
 import pl.edu.pwr.commandservice.entity.Tag;
 import pl.edu.pwr.commandservice.entity.ingredient.IngredientUnit;
 import pl.edu.pwr.commandservice.enums.DifficultyLevel;
@@ -25,6 +26,9 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private Integer authorId;
+
     @Column(nullable = false, length = 255)
     private String title;
 
@@ -38,7 +42,8 @@ public class Recipe {
     private Integer portions;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "difficulty_level")
+    @Column(columnDefinition = "difficulty_level", nullable = false)
+    @ColumnTransformer(write="?::difficulty_level")
     private DifficultyLevel difficulty;
 
     @Column

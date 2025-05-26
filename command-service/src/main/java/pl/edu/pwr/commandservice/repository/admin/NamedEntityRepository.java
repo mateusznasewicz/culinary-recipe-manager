@@ -10,4 +10,5 @@ import java.util.Set;
 public interface NamedEntityRepository<T> extends JpaRepository<T, Long> {
     Optional<T> findByName(String name);
     Set<T> findAllByNameIn(Set<String> names);
+    Set<T> findAllByIdIn(Set<Long> ids);
 }

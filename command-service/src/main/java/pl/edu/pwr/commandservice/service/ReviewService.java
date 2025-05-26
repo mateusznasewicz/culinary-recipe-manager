@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.pwr.commandservice.dto.ReviewDTO;
 import pl.edu.pwr.commandservice.entity.review.Review;
 import pl.edu.pwr.commandservice.entity.review.ReviewId;
+import pl.edu.pwr.commandservice.messaging.MessagePublisher;
 import pl.edu.pwr.commandservice.repository.ReviewRepository;
 
 @Service
@@ -12,7 +13,9 @@ import pl.edu.pwr.commandservice.repository.ReviewRepository;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final MessagePublisher messagePublisher;
 
+    //TODO obsluzyc wyjatki jak podany zly id
     public void save(ReviewDTO review) {
         Review reviewEntity = Review.builder()
                 .id(new ReviewId(review.userId(), review.recipeId()))
@@ -21,5 +24,6 @@ public class ReviewService {
                 .build();
 
         reviewRepository.save(reviewEntity);
+        messagePublisher.sendReviewMessage(reviewEntity);
     }
 }

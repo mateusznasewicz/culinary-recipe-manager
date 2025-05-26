@@ -19,10 +19,10 @@ public class IngredientUnit {
     private Long id;
 
     @Column(name = "ingredient_id", nullable = false)
-    private Integer ingredientId;
+    private Long ingredientId;
 
     @Column(name = "unit_id", nullable = false)
-    private Integer unitId;
+    private Long unitId;
 
     @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal quantity;

@@ -1,4 +1,5 @@
 {
+  "authorId":1,
   "title": "Spaghetti Carbonara",
   "description": "Classic Italian pasta dish...",
   "time": 30,
@@ -38,8 +39,8 @@
 }
 
 {
-  "userId": 9,
-  "recipeId": 16,
+  "userId": 1,
+  "recipeId": 1,
   "rating": 4.5,
   "comment": "Bardzo smaczne, polecam!"
 }
