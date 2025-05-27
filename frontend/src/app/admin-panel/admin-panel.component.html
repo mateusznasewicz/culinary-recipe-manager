@@ -1,0 +1,46 @@
+<div class="admin-container">
+  <div class="admin-tabs">
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'ingredients'"
+      (click)="switchTab('ingredients')">
+      Składniki
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'units'"
+      (click)="switchTab('units')">
+      Jednostki
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'tags'"
+      (click)="switchTab('tags')">
+      Tagi
+    </button>
+  </div>
+
+  <div class="form-section" [class.active]="activeTab === 'ingredients'">
+    <h2>Dodaj składnik</h2>
+    <form [formGroup]="ingredientForm" (ngSubmit)="addIngredient()">
+      <input type="text" formControlName="name" placeholder="Nazwa składnika" />
+      <button type="submit" [disabled]="ingredientForm.invalid">Dodaj</button>
+    </form>
+  </div>
+
+  <div class="form-section" [class.active]="activeTab === 'units'">
+    <h2>Dodaj jednostkę</h2>
+    <form [formGroup]="unitForm" (ngSubmit)="addUnit()">
+      <input type="text" formControlName="name" placeholder="Nazwa jednostki" />
+      <button type="submit" [disabled]="unitForm.invalid">Dodaj</button>
+    </form>
+  </div>
+
+  <div class="form-section" [class.active]="activeTab === 'tags'">
+    <h2>Dodaj tag</h2>
+    <form [formGroup]="tagForm" (ngSubmit)="addTag()">
+      <input type="text" formControlName="name" placeholder="Nazwa tagu" />
+      <button type="submit" [disabled]="tagForm.invalid">Dodaj</button>
+    </form>
+  </div>
+</div>

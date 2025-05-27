@@ -1,11 +1,14 @@
 // src/app/admin/admin-panel.component.ts
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { AdminService } from '../service/admin.service';
 
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
+  imports: [
+    ReactiveFormsModule
+  ],
   styleUrls: ['./admin-panel.component.scss']
 })
 export class AdminPanelComponent {

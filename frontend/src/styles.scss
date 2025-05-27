@@ -1,1 +1,86 @@
-/* You can add global styles to this file, and also import other style files */
+/* Resetowanie domyślnych stylów */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Globalne tło */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #333;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Przyciski */
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #ff6b6b, #ffa500);
+  color: white;
+}
+
+button.primary:hover {
+  background: linear-gradient(135deg, #ffa500, #ff6b6b);
+}
+
+button.disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Formularze */
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #ff6b6b;
+  background: white;
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+}
+
+/* Nagłówki */
+h1, h2, h3 {
+  font-weight: 700;
+  color: #333;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+/* Karty */
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+}/* You can add global styles to this file, and also import other style files */
