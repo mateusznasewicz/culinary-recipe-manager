@@ -14,7 +14,9 @@ import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
 import org.springframework.mock.http.server.reactive.MockServerHttpResponse;
 import org.springframework.mock.web.server.MockServerWebExchange;
 import org.springframework.web.server.ServerWebExchange;
-import pl.edu.pwr.apigateway.jwt.JwtAuthFilter;
+import pl.edu.pwr.apigateway.auth.AuthRepository;
+import pl.edu.pwr.apigateway.entity.User;
+import pl.edu.pwr.apigateway.filter.JwtAuthFilter;
 import pl.edu.pwr.apigateway.jwt.JwtService;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -28,6 +30,9 @@ import static org.mockito.Mockito.*;
 public class JwtAuthFilterTest {
     @Mock
     private JwtService jwtService;
+
+    @Mock
+    private AuthRepository authRepository;
 
     @InjectMocks
     private JwtAuthFilter jwtAuthFilter;
@@ -103,6 +108,10 @@ public class JwtAuthFilterTest {
         String token = "valid.jwt.token";
         String username = "john";
         String role = "USER";
+        String userId = "123";
+
+        User user = new User();
+        user.setId(123L);
 
         MockServerHttpRequest request = MockServerHttpRequest.get("/test")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
@@ -115,6 +124,7 @@ public class JwtAuthFilterTest {
         when(jwtService.isTokenValid(token)).thenReturn(true);
         when(jwtService.getUsername(token)).thenReturn(username);
         when(jwtService.getRole(token)).thenReturn(role);
+        when(authRepository.findByUsername(username)).thenReturn(Mono.just(user));
 
         // when
         Mono<Void> result = jwtAuthFilter.filter(exchange, chain);
@@ -126,7 +136,8 @@ public class JwtAuthFilterTest {
         verify(chain).filter(captor.capture());
 
         ServerHttpRequest mutatedRequest = captor.getValue().getRequest();
-        assertEquals(username, mutatedRequest.getHeaders().getFirst("X-User-Id"));
+        assertEquals(userId, mutatedRequest.getHeaders().getFirst("X-User-Id"));
+        assertEquals(username, mutatedRequest.getHeaders().getFirst("X-User-Username"));
         assertEquals(role, mutatedRequest.getHeaders().getFirst("X-User-Roles"));
     }
 }

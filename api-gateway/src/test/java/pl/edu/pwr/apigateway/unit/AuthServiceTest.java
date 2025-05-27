@@ -138,7 +138,7 @@ public class AuthServiceTest {
         when(authRepository.save(any(User.class))).thenReturn(Mono.just(savedUser));
 
         // when
-        Mono<Void> result = authService.register(username, rawPassword);
+        Mono<Void> result = authService.register(username, rawPassword, "USER");
 
         // then
         StepVerifier.create(result)
@@ -149,7 +149,7 @@ public class AuthServiceTest {
         User capturedUser = userCaptor.getValue();
         assertEquals(username, capturedUser.getUsername());
         assertEquals("encodedPass", capturedUser.getPassword());
-        assertEquals("USER", capturedUser.getRole());
+        assertEquals("ROLE_USER", capturedUser.getRole());
     }
 
     @Test
@@ -163,7 +163,7 @@ public class AuthServiceTest {
         when(authRepository.findByUsername(username)).thenReturn(Mono.just(existingUser));
 
         // when
-        Mono<Void> result = authService.register(username, rawPassword);
+        Mono<Void> result = authService.register(username, rawPassword, "USER");
 
         // then
         StepVerifier.create(result)

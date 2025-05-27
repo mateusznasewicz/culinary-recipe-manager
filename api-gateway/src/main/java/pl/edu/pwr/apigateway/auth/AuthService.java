@@ -34,14 +34,14 @@ public class AuthService {
                 }).then();
     }
 
-    public Mono<Void> register(String username, String password){
+    public Mono<Void> register(String username, String password, String role){
         return userExists(username)
                 .flatMap(exists -> {
                     if (exists) return Mono.error(new CredentialException("User already exists"));
                     User user = new User();
                     user.setUsername(username);
                     user.setPassword(passwordEncoder.encode(password));
-                    user.setRole("USER");
+                    user.setRole("ROLE_"+role);
 
                     return authRepository.save(user).then();
                 });

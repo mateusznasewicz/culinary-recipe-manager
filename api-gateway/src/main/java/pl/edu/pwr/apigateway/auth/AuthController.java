@@ -31,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public Mono<ResponseEntity<String>> register(@RequestBody @Valid RegisterRequest request){
-        return authService.register(request.username(), request.password())
+        return authService.register(request.username(), request.password(), "USER")
                 .thenReturn(ResponseEntity.ok("Registration successful"));
     }
 }
