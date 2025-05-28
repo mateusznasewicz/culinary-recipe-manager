@@ -26,6 +26,13 @@
       <input type="text" formControlName="name" placeholder="Nazwa składnika" />
       <button type="submit" [disabled]="ingredientForm.invalid">Dodaj</button>
     </form>
+    <ul>
+      <li *ngFor="let ingredient of ingredients">
+        {{ ingredient.name }}
+        <button (click)="editItem('ingredient', ingredient)">✏️</button>
+        <button (click)="deleteItem('ingredient', ingredient.id)">🗑️</button>
+      </li>
+    </ul>
   </div>
 
   <div class="form-section" [class.active]="activeTab === 'units'">
@@ -34,6 +41,13 @@
       <input type="text" formControlName="name" placeholder="Nazwa jednostki" />
       <button type="submit" [disabled]="unitForm.invalid">Dodaj</button>
     </form>
+    <ul>
+      <li *ngFor="let unit of units">
+        {{ unit.name }}
+        <button (click)="editItem('unit', unit)">✏️</button>
+        <button (click)="deleteItem('unit', unit.id)">🗑️</button>
+      </li>
+    </ul>
   </div>
 
   <div class="form-section" [class.active]="activeTab === 'tags'">
@@ -42,5 +56,12 @@
       <input type="text" formControlName="name" placeholder="Nazwa tagu" />
       <button type="submit" [disabled]="tagForm.invalid">Dodaj</button>
     </form>
+    <ul>
+      <li *ngFor="let tag of tags">
+        {{ tag.name }}
+        <button (click)="editItem('tag', tag)">✏️</button>
+        <button (click)="deleteItem('tag', tag.id)">🗑️</button>
+      </li>
+    </ul>
   </div>
 </div>
