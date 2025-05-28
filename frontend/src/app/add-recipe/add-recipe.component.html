@@ -1,0 +1,60 @@
+<div class="form-section">
+  <h2>Dodaj przepis</h2>
+  <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <input type="text" formControlName="title" placeholder="Tytuł przepisu" class="form-input" />
+    <textarea formControlName="description" placeholder="Opis przepisu" class="form-input"></textarea>
+
+    <select formControlName="difficulty" class="form-input">
+      <option value="" disabled>Wybierz poziom trudności</option>
+      <option value="ŁATWY">Łatwy</option>
+      <option value="ŚREDNI">Średni</option>
+      <option value="TRUDNY">Trudny</option>
+    </select>
+
+    <div class="form-group">
+      <label for="time">Czas gotowania (minuty):</label>
+      <input id="time" type="number" formControlName="time" placeholder="Czas gotowania" class="form-input" />
+    </div>
+
+    <div class="form-group">
+      <label for="portions">Liczba porcji:</label>
+      <input id="portions" type="number" formControlName="portions" placeholder="Liczba porcji" class="form-input" max="100" />
+    </div>
+
+
+    <div>
+      <h3>Tagi</h3>
+      <button type="button" (click)="addTag()" class="primary">Dodaj tag</button>
+      <ul>
+        <li *ngFor="let tag of tags.controls; let i = index">
+          <select [formControl]="getFormControl(tag.get('name'))" class="form-input">
+            <option value="" disabled>Wybierz tag</option>
+            <option *ngFor="let tagOption of availableTags" [value]="tagOption">{{ tagOption }}</option>
+          </select>
+          <button type="button" (click)="removeTag(i)" class="danger">🗑️</button>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Składniki</h3>
+      <button type="button" (click)="addIngredientUnit()" class="primary">Dodaj składnik</button>
+      <ul>
+        <li *ngFor="let unit of ingredientUnits.controls; let i = index">
+          <select [formControl]="getFormControl(unit.get('ingredientId'))" class="form-input">
+            <option value="" disabled>Wybierz składnik</option>
+            <option *ngFor="let ingredient of availableIngredients" [value]="ingredient.id">{{ ingredient.name }}</option>
+          </select>
+          <select [formControl]="getFormControl(unit.get('unitId'))" class="form-input">
+            <option value="" disabled>Wybierz jednostkę</option>
+            <option *ngFor="let unitOption of availableUnits" [value]="unitOption.id">{{ unitOption.name }}</option>
+          </select>
+          <input type="number" [formControl]="getFormControl(unit.get('quantity'))" placeholder="Ilość" class="form-input" />
+          <button type="button" (click)="removeIngredientUnit(i)" class="danger">🗑️</button>
+        </li>
+      </ul>
+    </div>
+
+    <button type="submit" [disabled]="recipeForm.invalid" class="primary">Dodaj przepis</button>
+  </form>
+</div>
