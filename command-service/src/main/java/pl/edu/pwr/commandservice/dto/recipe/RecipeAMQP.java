@@ -5,7 +5,7 @@ import pl.edu.pwr.commandservice.enums.DifficultyLevel;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record RecipeEvent(
+public record RecipeAMQP(
         Long id,
         String title,
         Integer authorId,

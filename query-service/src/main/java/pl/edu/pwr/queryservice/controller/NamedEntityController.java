@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edu.pwr.queryservice.entity.Ingredient;
 import pl.edu.pwr.queryservice.entity.Tag;
 import pl.edu.pwr.queryservice.entity.Unit;
-import pl.edu.pwr.queryservice.service.IngredientService;
-import pl.edu.pwr.queryservice.service.TagService;
-import pl.edu.pwr.queryservice.service.UnitService;
+import pl.edu.pwr.queryservice.service.namedEntityService.IngredientService;
+import pl.edu.pwr.queryservice.service.namedEntityService.TagService;
+import pl.edu.pwr.queryservice.service.namedEntityService.UnitService;
 
 import java.util.Set;
 

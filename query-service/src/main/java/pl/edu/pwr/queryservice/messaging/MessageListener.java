@@ -7,7 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-import pl.edu.pwr.queryservice.dto.RecipeDTO;
+import pl.edu.pwr.queryservice.dto.RecipeAMQP;
+import pl.edu.pwr.queryservice.dto.RecipeMapper;
+import pl.edu.pwr.queryservice.entity.Recipe;
+import pl.edu.pwr.queryservice.service.RecipeService;
 
 import java.io.IOException;
 
@@ -16,6 +19,8 @@ import java.io.IOException;
 public class MessageListener {
 
     private final ObjectMapper objectMapper;
+    private final RecipeMapper recipeMapper;
+    private final RecipeService recipeService;
     private Logger logger = LoggerFactory.getLogger(MessageListener.class);
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
@@ -24,7 +29,10 @@ public class MessageListener {
 
         if(routingKey.equals(RabbitMQConfig.RECIPE_ROUTING_KEY)) {
             logger.info("Received recipe from message");
-            RecipeDTO recipeDTO = objectMapper.readValue(message.getBody(), RecipeDTO.class);
+            RecipeAMQP recipe = objectMapper.readValue(message.getBody(), RecipeAMQP.class);
+            Recipe entity  = recipeMapper.toEntity(recipe);
+            logger.info(entity.toString());
+            recipeService.save(entity);
         }
     }
 }

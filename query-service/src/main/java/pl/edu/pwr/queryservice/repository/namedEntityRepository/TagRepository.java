@@ -1,4 +1,4 @@
-package pl.edu.pwr.queryservice.repository;
+package pl.edu.pwr.queryservice.repository.namedEntityRepository;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;

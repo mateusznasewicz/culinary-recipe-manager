@@ -1,11 +1,13 @@
-package pl.edu.pwr.queryservice.repository;
+package pl.edu.pwr.queryservice.repository.namedEntityRepository;
 
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class NamedEntityRepositoryImpl<T>
@@ -21,6 +23,15 @@ public class NamedEntityRepositoryImpl<T>
         this.entityManager = entityManager;
         this.tableName = tableName;
         this.clazz = clazz;
+    }
+
+    @Override
+    public Optional<String> findNameById(Long id){
+        String sql = String.format("SELECT name FROM %s WHERE id = :id", tableName);
+        String result = entityManager.createNativeQuery(sql)
+                .setParameter("id", id)
+                .getSingleResult().toString();
+        return Optional.of(result);
     }
 
     @Override

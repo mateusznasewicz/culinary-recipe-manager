@@ -20,7 +20,7 @@ public interface RecipeMapper {
     @Mapping(target = "ingredients", source = "ingredientUnits", qualifiedByName = "mapIngredients")
     @Mapping(target = "tags", source = "tags", qualifiedByName = "mapTags")
     @Mapping(target = "averageRating", ignore = true)
-    RecipeEvent toEvent(RecipeDTO recipe);
+    RecipeAMQP toEvent(RecipeDTO recipe);
 
     @Named("mapSteps")
     default List<String> mapSteps(Set<RecipeStep> steps) {

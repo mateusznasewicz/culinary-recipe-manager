@@ -1,8 +1,10 @@
 package pl.edu.pwr.queryservice.entity;
 
+import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,60 +19,44 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 255)
     @Column(name = "title", nullable = false)
     private String title;
 
-    @NotBlank
-    @Size(max = 255)
     @Column(name = "author", nullable = false)
     private String author;
 
     @Column(name = "description")
     private String description;
 
-    @NotNull
-    @Min(1)
-    @Max(599)
     @Column(name = "time", nullable = false)
     private Integer time;
 
-    @NotNull
-    @Min(1)
-    @Max(20)
     @Column(name = "portions", nullable = false)
     private Integer portions;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "difficulty", nullable = false)
+    @Column(columnDefinition = "difficulty_level", nullable = false)
+    @ColumnTransformer(write="?::difficulty_level")
     private DifficultyLevel difficulty;
 
-    @DecimalMin("0.0")
-    @DecimalMax("5.0")
-    @Digits(integer = 2, fraction = 1)
     @Column(name = "average_rating")
     private BigDecimal averageRating;
 
-    @NotNull
-    @ElementCollection
-    @Column(name = "tags")
+    @Type(ListArrayType.class)
+    @Column(name = "tags", columnDefinition = "text[]")
     private List<String> tags;
 
-    @NotNull
-    @ElementCollection
-    @Column(name = "steps")
+    @Type(ListArrayType.class)
+    @Column(name = "steps", columnDefinition = "text[]")
     private List<String> steps;
 
-    @NotNull
-    @ElementCollection
-    @Column(name = "ingredients")
+    @Type(ListArrayType.class)
+    @Column(name = "ingredients", columnDefinition = "text[]")
     private List<String> ingredients;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }

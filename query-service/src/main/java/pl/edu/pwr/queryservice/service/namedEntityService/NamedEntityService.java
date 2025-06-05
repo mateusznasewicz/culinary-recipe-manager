@@ -1,7 +1,6 @@
-package pl.edu.pwr.queryservice.service;
+package pl.edu.pwr.queryservice.service.namedEntityService;
 
-import pl.edu.pwr.queryservice.entity.NamedEntity;
-import pl.edu.pwr.queryservice.repository.NamedEntityRepository;
+import pl.edu.pwr.queryservice.repository.namedEntityRepository.NamedEntityRepository;
 
 import java.util.Set;
 

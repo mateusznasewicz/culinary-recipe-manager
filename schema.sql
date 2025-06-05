@@ -92,8 +92,13 @@ CREATE TABLE recipes_read (
 );
 
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 CREATE INDEX tag_name_trgm_idx ON tags_write USING gin (name gin_trgm_ops);
 CREATE INDEX unit_name_trgm_idx ON units_write USING gin (name gin_trgm_ops);
 CREATE INDEX ingredient_name_trgm_idx ON ingredients_write USING gin (name gin_trgm_ops);
+CREATE INDEX recipe_name_trgm_idx ON recipes_read USING gin (title gin_trgm_ops);
+
+CREATE INDEX idx_recipes_tags_gin ON recipes_read USING GIN (tags);
+
 
 

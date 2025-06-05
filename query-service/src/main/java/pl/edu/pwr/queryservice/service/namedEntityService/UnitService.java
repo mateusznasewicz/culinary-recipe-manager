@@ -1,8 +1,8 @@
-package pl.edu.pwr.queryservice.service;
+package pl.edu.pwr.queryservice.service.namedEntityService;
 
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.queryservice.entity.Unit;
-import pl.edu.pwr.queryservice.repository.UnitRepository;
+import pl.edu.pwr.queryservice.repository.namedEntityRepository.UnitRepository;
 
 @Service
 public class UnitService extends NamedEntityService<Unit> {
