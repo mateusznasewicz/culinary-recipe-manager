@@ -1,20 +1,12 @@
 package pl.edu.pwr.queryservice.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import jakarta.persistence.EntityManager;
+import org.springframework.stereotype.Repository;
 import pl.edu.pwr.queryservice.entity.Unit;
 
-import java.util.Set;
-
-public interface UnitRepository extends NamedEntityRepository<Unit> {
-    @Query(value = """
-        SELECT * FROM units_write 
-        WHERE name % :q
-        ORDER BY similarity(name, :q) DESC
-        LIMIT :lim 
-        """,
-        nativeQuery = true
-    )
-    Set<Unit> findByQuery(@Param("q") String q, @Param("lim") int limit);
+@Repository
+public class UnitRepository extends NamedEntityRepositoryImpl<Unit>{
+    public UnitRepository(EntityManager em) {
+        super(em,"units_write", Unit.class);
+    }
 }
