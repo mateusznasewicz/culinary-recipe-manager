@@ -46,6 +46,6 @@ public class RecipeService {
         }
 
         recipeRepository.save(recipe);
-//        messagePublisher.sendRecipeMessage(recipeMapper.toEvent(recipeDTO));
+        messagePublisher.sendRecipeMessage(recipeMapper.toEvent(recipeDTO));
     }
 }

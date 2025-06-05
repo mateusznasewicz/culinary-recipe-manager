@@ -1,4 +1,4 @@
-package pl.edu.pwr.commandservice.entity;
+package pl.edu.pwr.queryservice.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
