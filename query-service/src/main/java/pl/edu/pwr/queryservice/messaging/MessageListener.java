@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-import pl.edu.pwr.queryservice.dto.RecipeAMQP;
-import pl.edu.pwr.queryservice.dto.RecipeMapper;
+import pl.edu.pwr.queryservice.dto.recipe.RecipeAMQP;
+import pl.edu.pwr.queryservice.dto.recipe.RecipeMapper;
 import pl.edu.pwr.queryservice.entity.Recipe;
 import pl.edu.pwr.queryservice.service.RecipeService;
 

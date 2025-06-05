@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.edu.pwr.queryservice.dto.RecipeDTO;
-import pl.edu.pwr.queryservice.dto.RecipeDetailsDTO;
-import pl.edu.pwr.queryservice.dto.RecipeMapper;
+import pl.edu.pwr.queryservice.dto.recipe.RecipeDTO;
+import pl.edu.pwr.queryservice.dto.recipe.RecipeDetailsDTO;
+import pl.edu.pwr.queryservice.dto.recipe.RecipeMapper;
 import pl.edu.pwr.queryservice.entity.Recipe;
-import pl.edu.pwr.queryservice.repository.namedEntityRepository.RecipeRepository;
+import pl.edu.pwr.queryservice.repository.RecipeRepository;
 
 import java.util.List;
 

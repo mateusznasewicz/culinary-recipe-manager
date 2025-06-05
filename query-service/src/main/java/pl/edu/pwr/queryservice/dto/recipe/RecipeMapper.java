@@ -1,6 +1,5 @@
-package pl.edu.pwr.queryservice.dto;
+package pl.edu.pwr.queryservice.dto.recipe;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

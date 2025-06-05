@@ -1,4 +1,4 @@
-package pl.edu.pwr.queryservice.repository.namedEntityRepository;
+package pl.edu.pwr.queryservice.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

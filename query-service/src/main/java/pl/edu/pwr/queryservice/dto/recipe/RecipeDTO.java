@@ -1,4 +1,4 @@
-package pl.edu.pwr.queryservice.dto;
+package pl.edu.pwr.queryservice.dto.recipe;
 
 import pl.edu.pwr.queryservice.entity.DifficultyLevel;
 
