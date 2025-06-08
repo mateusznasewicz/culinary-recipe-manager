@@ -120,12 +120,10 @@ export class AuthComponent {
       this.authService.login(username, password).subscribe({
         next: (response) => {
           this.isSubmitting = false;
-          // Token już jest zapisany w AuthService przez tap operator
-
-          // Przekierowanie do głównej aplikacji
-          // this.router.navigate(['/recipes']);
+          console.log(response)
         },
         error: (error) => {
+          console.log(error)
           this.isSubmitting = false;
           this.loginError = error.error?.message || 'Błąd logowania. Sprawdź dane.';
         }

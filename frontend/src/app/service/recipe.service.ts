@@ -13,7 +13,4 @@ export class RecipeService {
   getRecipeDetails(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
-  getTest(): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/test`);
-  }
 }

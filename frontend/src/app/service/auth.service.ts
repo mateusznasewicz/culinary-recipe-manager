@@ -20,6 +20,10 @@ export interface AuthResponse {
   message?: string;
 }
 
+export interface TextResponse {
+  text: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })

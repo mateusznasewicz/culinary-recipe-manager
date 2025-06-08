@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+
+export interface NamedEntity {
+  id: number;
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -18,50 +23,55 @@ export class AdminService {
     });
   }
 
-  getIngredients(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/ingredient`, { headers: this.getAuthHeaders() });
+  searchIngredients(q: String): Observable<NamedEntity[]> {
+    return this.http.get<NamedEntity[]>(`${this.apiUrl}/ingredient?q=${q}`)
   }
 
-  getUnits(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/unit`, { headers: this.getAuthHeaders() });
+  searchTags(q: String): Observable<NamedEntity[]> {
+    return this.http.get<NamedEntity[]>(`${this.apiUrl}/tag?q=${q}`)
   }
 
-  getTags(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/tag`, { headers: this.getAuthHeaders() });
+  searchUnits(q: String): Observable<NamedEntity[]> {
+    return this.http.get<NamedEntity[]>(`${this.apiUrl}/unit?q=${q}`);
   }
 
   updateIngredient(data: { id: number, name: string }): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/ingredient`, data, { headers: this.getAuthHeaders() });
+    throw new Error("Not implemented")
   }
 
   updateUnit(data: { id: number, name: string }): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/unit`, data, { headers: this.getAuthHeaders() });
+    throw new Error("Not implemented")
   }
 
   updateTag(data: { id: number, name: string }): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/tag`, data, { headers: this.getAuthHeaders() });
+    throw new Error("Not implemented")
   }
 
   deleteIngredient(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/ingredient?id=${id}`, { headers: this.getAuthHeaders() });
+    throw new Error("Not implemented")
   }
 
   deleteUnit(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/unit?id=${id}`, { headers: this.getAuthHeaders() });
+    throw new Error("Not implemented")
   }
 
   deleteTag(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/tag?id=${id}`, { headers: this.getAuthHeaders() });
+    throw new Error("Not implemented");
   }
-  addIngredient(data: { name: string }): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/ingredient`, data, { headers: this.getAuthHeaders() });
+  
+  addIngredient(data: { name: string }): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/ingredient`, data, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' as 'json'})
   }
 
-  addUnit(data: { name: string }): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/unit`, data, { headers: this.getAuthHeaders() });
+  addUnit(data: { name: string }): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/unit`, data, { headers: this.getAuthHeaders(),
+    responseType: 'text' as 'json' });
   }
 
-  addTag(data: { name: string }): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/tag`, data, { headers: this.getAuthHeaders() });
+  addTag(data: { name: string }): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/tag`, data, { headers: this.getAuthHeaders(),
+    responseType: 'text' as 'json' });
   }
 }

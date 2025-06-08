@@ -10,18 +10,4 @@ import { RecipeService } from './service/recipe.service';
 })
 export class AppComponent {
   title = 'frontend';
-  data: string = '';
-  private recipeService = inject(RecipeService);
-
-  ngOnInit(): void {
-    this.recipeService.getTest().subscribe({
-      next: (res: string) => {
-        console.log('Response:', res);
-        this.data = res;
-      },
-      error: (err: any) => {
-        console.error('Error:', err);
-      }
-    });
-  }
 }

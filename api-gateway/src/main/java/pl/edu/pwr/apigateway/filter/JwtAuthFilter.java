@@ -48,6 +48,7 @@ public class JwtAuthFilter implements GatewayFilter, Ordered {
                             .header("X-User-Username", username)
                             .header("X-User-Id", userId)
                             .header("X-User-Roles", jwtService.getRole(token))
+                            .header("Access-Control-Allow-Origin", "http://localhost:4200")
                             .build();
                     return chain.filter(exchange.mutate().request(modifiedRequest).build());
                 });

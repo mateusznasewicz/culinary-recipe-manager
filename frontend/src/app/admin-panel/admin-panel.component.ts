@@ -1,27 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AdminService } from '../service/admin.service';
+import { AdminService, NamedEntity } from '../service/admin.service';
+import { debounceTime, distinctUntilChanged, Observable, switchMap } from 'rxjs';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,NgFor],
   styleUrls: ['./admin-panel.component.scss']
 })
-export class AdminPanelComponent implements OnInit {
+export class AdminPanelComponent {
   activeTab: 'ingredients' | 'units' | 'tags' = 'ingredients';
   ingredientForm: FormGroup;
   unitForm: FormGroup;
   tagForm: FormGroup;
 
-  ingredients: any[] = [];
-  units: any[] = [];
-  tags: any[] = [];
+  ingredients: NamedEntity[] = [];
+  units: NamedEntity[] = [];
+  tags: NamedEntity[] = [];
 
   constructor(private fb: FormBuilder, private adminService: AdminService) {
     this.ingredientForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]]
     });
+
 
     this.unitForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]]
@@ -30,16 +33,40 @@ export class AdminPanelComponent implements OnInit {
     this.tagForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]]
     });
+
+    this.setupSearch('name', this.ingredientForm, 
+      searchTerm => this.adminService.searchIngredients(searchTerm),
+      results => {console.log("test")
+        console.log(results)
+        this.ingredients = results}
+    );
+
+    this.setupSearch('name', this.unitForm, 
+      searchTerm => this.adminService.searchUnits(searchTerm),
+      results => {
+        this.units = results
+      }
+    );
+
+    this.setupSearch('name', this.tagForm, 
+      searchTerm => this.adminService.searchTags(searchTerm),
+      results => this.tags = results
+    );
   }
 
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    this.adminService.getIngredients().subscribe(data => this.ingredients = data);
-    this.adminService.getUnits().subscribe(data => this.units = data);
-    this.adminService.getTags().subscribe(data => this.tags = data);
+  private setupSearch(
+    controlName: string,
+    form: FormGroup,
+    searchFunction: (term: string) => Observable<any[]>,
+    resultHandler: (results: any[]) => void
+  ) {
+    form.get(controlName)?.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(searchTerm => searchFunction(searchTerm)),
+      )
+      .subscribe(results => resultHandler(results));
   }
 
   switchTab(tab: 'ingredients' | 'units' | 'tags') {
@@ -48,7 +75,7 @@ export class AdminPanelComponent implements OnInit {
 
   addIngredient() {
     if (this.ingredientForm.valid) {
-      this.adminService.addIngredient(this.ingredientForm.value).subscribe({next: () => {}, error: err => {console.log(err)}})
+      this.adminService.addIngredient(this.ingredientForm.value).subscribe({next: (response) => {console.log(response)}, error: err => {console.log(err)}})
   }}
 
   addUnit() {
@@ -56,7 +83,6 @@ export class AdminPanelComponent implements OnInit {
       this.adminService.addUnit(this.unitForm.value).subscribe(() => {
         alert('Jednostka dodana!');
         this.unitForm.reset();
-        this.loadData();
       });
     }
   }
@@ -66,7 +92,6 @@ export class AdminPanelComponent implements OnInit {
       this.adminService.addTag(this.tagForm.value).subscribe(() => {
         alert('Tag dodany!');
         this.tagForm.reset();
-        this.loadData();
       });
     }
   }
@@ -81,7 +106,6 @@ export class AdminPanelComponent implements OnInit {
 
       updateMethod.subscribe(() => {
         alert(`${type.charAt(0).toUpperCase() + type.slice(1)} zaktualizowany!`);
-        this.loadData();
       });
     }
   }
@@ -94,7 +118,6 @@ export class AdminPanelComponent implements OnInit {
 
       deleteMethod.subscribe(() => {
         alert(`${type.charAt(0).toUpperCase() + type.slice(1)} usunięty!`);
-        this.loadData();
       });
     }
   }
