@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,6 +10,8 @@ import {
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AdminService, NamedEntity } from '../service/admin.service';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 
 @Component({
@@ -20,17 +22,16 @@ import { CommonModule } from '@angular/common';
 })
 export class AddRecipeComponent {
   recipeForm: FormGroup;
-  availableTags = ['Italian', 'Meat', 'Vegetarian', 'Dessert'];
-  availableIngredients = [
-    { id: 1, name: 'Mąka' },
-    { id: 2, name: 'Cukier' },
-    { id: 3, name: 'Jajka' }
-  ];
-  availableUnits = [
-    { id: 1, name: 'Gram' },
-    { id: 2, name: 'Mililitr' },
-    { id: 3, name: 'Sztuka' }
-  ]; // zeby cos zaprezentowac
+  
+  tagSearchResults: { [index: number]: NamedEntity[] } = {};
+  ingredientSearchResults: { [index: number]: NamedEntity[] } = {};
+  unitSearchResults: { [index: number]: NamedEntity[] } = {};
+
+  activeTagInput: number | null = null;
+  activeIngredientInput: number | null = null;
+  activeUnitInput: number | null = null;
+  
+  adminService: AdminService = inject(AdminService)
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.recipeForm = this.fb.group({
@@ -45,47 +46,55 @@ export class AddRecipeComponent {
     });
   }
 
+  selectTag(index: number, tagValue: NamedEntity) {
+    const tagControl = this.tags.at(index).get('name');
+    if (tagControl) {
+      tagControl.setValue(tagValue.name);
+      this.tagSearchResults[index] = []; 
+      this.activeTagInput = null;
+    }
+  }
+
+  onTagInputFocus(index: number) {
+    this.activeTagInput = index;
+  }
+
+  onTagInputBlur(index: number) {
+    setTimeout(() => {
+      if (this.activeTagInput === index) {
+        this.activeTagInput = null;
+      }
+    }, 200);
+  }
+
   get tags(): FormArray {
     return this.recipeForm.get('tags') as FormArray;
   }
 
-  get recipeSteps(): FormArray {
-    return this.recipeForm.get('recipeSteps') as FormArray;
-  }
-
-  get ingredientUnits(): FormArray {
-    return this.recipeForm.get('ingredientUnits') as FormArray;
-  }
-
   addTag() {
+    const newIndex = this.tags.length; 
     this.tags.push(this.fb.group({ name: ['', Validators.required] }));
+    this.setupTagSearch(newIndex);
   }
 
-  addStep() {
-    this.recipeSteps.push(this.fb.group({
-      stepNumber: [this.recipeSteps.length + 1, Validators.required],
-      description: ['', Validators.required]
-    }));
-  }
+  private setupTagSearch(index: number) {
+    const tagControl = this.tags.at(index).get('name');
+    
+    if (!tagControl) return;
 
-  addIngredientUnit() {
-    this.ingredientUnits.push(this.fb.group({
-      ingredientId: [null, Validators.required],
-      unitId: [null, Validators.required],
-      quantity: [0, [Validators.required, Validators.min(0.1)]]
-    }));
+    tagControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(searchTerm => this.adminService.searchTags(searchTerm)),
+      )
+      .subscribe(results => {
+        this.tagSearchResults[index] = results;
+      });
   }
 
   removeTag(index: number) {
     this.tags.removeAt(index);
-  }
-
-  removeStep(index: number) {
-    this.recipeSteps.removeAt(index);
-  }
-
-  removeIngredientUnit(index: number) {
-    this.ingredientUnits.removeAt(index);
   }
 
   onSubmit() {
@@ -96,6 +105,7 @@ export class AddRecipeComponent {
       });
     }
   }
+
   getFormControl(control: AbstractControl | null): FormControl {
     if (!control) {
       throw new Error('Control is null');

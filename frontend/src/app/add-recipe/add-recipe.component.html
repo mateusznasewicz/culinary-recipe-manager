@@ -26,31 +26,31 @@
       <h3>Tagi</h3>
       <button type="button" (click)="addTag()" class="primary">Dodaj tag</button>
       <ul>
-        <li *ngFor="let tag of tags.controls; let i = index">
-          <select [formControl]="getFormControl(tag.get('name'))" class="form-input">
-            <option value="" disabled>Wybierz tag</option>
-            <option *ngFor="let tagOption of availableTags" [value]="tagOption">{{ tagOption }}</option>
-          </select>
+        <li *ngFor="let tag of tags.controls; let i = index" class="tag-item">
+          <div class="search-container">
+            <input 
+              type="text" 
+              [formControl]="getFormControl(tag.get('name'))" 
+              class="form-input"
+              placeholder="Wyszukaj tag..."
+              autocomplete="off"
+              (focus)="onTagInputFocus(i)"
+              (blur)="onTagInputBlur(i)"
+            />
+            
+            <div class="search-results" *ngIf="tagSearchResults[i] && tagSearchResults[i].length > 0 && activeTagInput === i">
+              <div 
+                class="search-result-item" 
+                *ngFor="let tagOption of tagSearchResults[i]"
+                (mousedown)="selectTag(i, tagOption)"
+              >
+                {{ tagOption.name }}
+              </div>
+            </div>
+    
+          </div>
+          
           <button type="button" (click)="removeTag(i)" class="danger">🗑️</button>
-        </li>
-      </ul>
-    </div>
-
-    <div>
-      <h3>Składniki</h3>
-      <button type="button" (click)="addIngredientUnit()" class="primary">Dodaj składnik</button>
-      <ul>
-        <li *ngFor="let unit of ingredientUnits.controls; let i = index">
-          <select [formControl]="getFormControl(unit.get('ingredientId'))" class="form-input">
-            <option value="" disabled>Wybierz składnik</option>
-            <option *ngFor="let ingredient of availableIngredients" [value]="ingredient.id">{{ ingredient.name }}</option>
-          </select>
-          <select [formControl]="getFormControl(unit.get('unitId'))" class="form-input">
-            <option value="" disabled>Wybierz jednostkę</option>
-            <option *ngFor="let unitOption of availableUnits" [value]="unitOption.id">{{ unitOption.name }}</option>
-          </select>
-          <input type="number" [formControl]="getFormControl(unit.get('quantity'))" placeholder="Ilość" class="form-input" />
-          <button type="button" (click)="removeIngredientUnit(i)" class="danger">🗑️</button>
         </li>
       </ul>
     </div>

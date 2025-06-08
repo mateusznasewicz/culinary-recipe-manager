@@ -7,6 +7,12 @@ export interface NamedEntity {
   name: string;
 }
 
+export interface IngredientUnit {
+  quantity: number;
+  unit: NamedEntity;
+  ingredient: NamedEntity;
+}
+
 @Injectable({
   providedIn: 'root'
 })
