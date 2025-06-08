@@ -48,13 +48,8 @@ export class AdminPanelComponent implements OnInit {
 
   addIngredient() {
     if (this.ingredientForm.valid) {
-      this.adminService.addIngredient(this.ingredientForm.value).subscribe(() => {
-        alert('Składnik dodany!');
-        this.ingredientForm.reset();
-        this.loadData();
-      });
-    }
-  }
+      this.adminService.addIngredient(this.ingredientForm.value).subscribe({next: () => {}, error: err => {console.log(err)}})
+  }}
 
   addUnit() {
     if (this.unitForm.valid) {
