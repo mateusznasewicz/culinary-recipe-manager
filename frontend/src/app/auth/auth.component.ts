@@ -120,10 +120,9 @@ export class AuthComponent {
       this.authService.login(username, password).subscribe({
         next: (response) => {
           this.isSubmitting = false;
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('username', username);
+          // Token już jest zapisany w AuthService przez tap operator
 
-          // to main app
+          // Przekierowanie do głównej aplikacji
           this.router.navigate(['/recipes']);
         },
         error: (error) => {
@@ -145,7 +144,6 @@ export class AuthComponent {
         next: (response) => {
           this.isSubmitting = false;
           this.registerSuccess = 'Rejestracja pomyślna! Możesz się teraz zalogować.';
-
 
           setTimeout(() => {
             this.registerForm.reset();

@@ -16,7 +16,7 @@ export interface RegisterRequest {
 
 export interface AuthResponse {
   token: string;
-  username: string;
+  tokenType?: string;
   message?: string;
 }
 
@@ -24,7 +24,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth'; // API Gateway URL
+  private apiUrl = 'http://localhost:8080/auth'; // API Gateway URL
   private currentUserSubject = new BehaviorSubject<string | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -47,17 +47,17 @@ export class AuthService {
       tap(response => {
         if (response.token) {
           localStorage.setItem('token', response.token);
-          localStorage.setItem('username', response.username);
-          this.currentUserSubject.next(response.username);
+          localStorage.setItem('username', username);
+          this.currentUserSubject.next(username);
         }
       })
     );
   }
 
-  register(username: string, password: string, confirmPassword: string): Observable<AuthResponse> {
+  register(username: string, password: string, confirmPassword: string): Observable<any> {
     const registerData: RegisterRequest = { username, password, confirmPassword };
 
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, registerData, {
+    return this.http.post<any>(`${this.apiUrl}/register`, registerData, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })

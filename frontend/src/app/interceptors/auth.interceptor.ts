@@ -4,6 +4,13 @@ import { AuthService } from '../service/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
+
+  const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/register');
+
+  if (isAuthEndpoint) {
+    return next(req);
+  }
+
   const token = authService.getToken();
 
   if (token) {
