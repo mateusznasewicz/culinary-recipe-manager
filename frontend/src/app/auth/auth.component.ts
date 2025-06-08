@@ -123,7 +123,7 @@ export class AuthComponent {
           // Token już jest zapisany w AuthService przez tap operator
 
           // Przekierowanie do głównej aplikacji
-          this.router.navigate(['/recipes']);
+          // this.router.navigate(['/recipes']);
         },
         error: (error) => {
           this.isSubmitting = false;
@@ -152,6 +152,7 @@ export class AuthComponent {
           }, 2000);
         },
         error: (error) => {
+          console.log(error)
           this.isSubmitting = false;
           this.registerError = error.error?.message || 'Błąd rejestracji. Spróbuj ponownie.';
         }

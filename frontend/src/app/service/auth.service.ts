@@ -45,6 +45,7 @@ export class AuthService {
       })
     }).pipe(
       tap(response => {
+        console.log(response)
         if (response.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('username', username);
@@ -54,13 +55,13 @@ export class AuthService {
     );
   }
 
-  register(username: string, password: string, confirmPassword: string): Observable<any> {
+  register(username: string, password: string, confirmPassword: string): Observable<string> {
     const registerData: RegisterRequest = { username, password, confirmPassword };
 
-    return this.http.post<any>(`${this.apiUrl}/register`, registerData, {
+    return this.http.post<string>(`${this.apiUrl}/register`, registerData, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      })
+      }), responseType: "text" as "json"
     });
   }
 

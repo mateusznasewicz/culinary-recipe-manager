@@ -15,13 +15,6 @@
       <p><strong>Tagi:</strong> {{ recipe?.tags?.join(', ') }}</p>
     </div>
 
-    <div class="recipe-steps">
-      <h2>Kroki:</h2>
-      <ol>
-        <li *ngFor="let step of recipe?.steps">{{ step }}</li>
-      </ol>
-    </div>
-
     <div class="recipe-ingredients">
       <h2>Składniki:</h2>
       <ul>
@@ -29,6 +22,14 @@
       </ul>
     </div>
   </div>
+
+  <div class="recipe-steps">
+    <h2>Kroki:</h2>
+    <ol>
+      <li *ngFor="let step of recipe?.steps">{{ step }}</li>
+    </ol>
+  </div>
+
 
   <!-- Sekcja recenzji -->
   <div class="reviews-section">
