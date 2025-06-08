@@ -11,6 +11,7 @@ export interface LoginRequest {
 export interface RegisterRequest {
   username: string;
   password: string;
+  confirmPassword: string;
 }
 
 export interface AuthResponse {
@@ -53,8 +54,8 @@ export class AuthService {
     );
   }
 
-  register(username: string, password: string): Observable<AuthResponse> {
-    const registerData: RegisterRequest = {username, password};
+  register(username: string, password: string, confirmPassword: string): Observable<AuthResponse> {
+    const registerData: RegisterRequest = { username, password, confirmPassword };
 
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, registerData, {
       headers: new HttpHeaders({

@@ -120,11 +120,10 @@ export class AuthComponent {
       this.authService.login(username, password).subscribe({
         next: (response) => {
           this.isSubmitting = false;
-          // Store token if needed
           localStorage.setItem('token', response.token);
           localStorage.setItem('username', username);
 
-          // Redirect to main app
+          // to main app
           this.router.navigate(['/recipes']);
         },
         error: (error) => {
@@ -140,14 +139,14 @@ export class AuthComponent {
       this.isSubmitting = true;
       this.clearMessages();
 
-      const { username, password } = this.registerForm.value;
+      const { username, password, confirmPassword } = this.registerForm.value;
 
-      this.authService.register(username, password).subscribe({
+      this.authService.register(username, password, confirmPassword).subscribe({
         next: (response) => {
           this.isSubmitting = false;
           this.registerSuccess = 'Rejestracja pomyślna! Możesz się teraz zalogować.';
 
-          // Clear form and switch to login after delay
+
           setTimeout(() => {
             this.registerForm.reset();
             this.passwordStrength = 0;
