@@ -15,11 +15,11 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.recipeService.getTest().subscribe({
-      next: (res) => {
+      next: (res: string) => {
         console.log('Response:', res);
         this.data = res;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error:', err);
       }
     });

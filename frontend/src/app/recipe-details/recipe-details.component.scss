@@ -1,0 +1,109 @@
+.recipe-details-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-section {
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+
+  .recipe-header {
+    text-align: center;
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+    }
+
+    .author, .rating {
+      font-size: 1rem;
+      color: #666;
+    }
+  }
+
+  .recipe-info, .recipe-steps, .recipe-ingredients {
+    margin-bottom: 20px;
+
+    h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    p, li {
+      font-size: 1rem;
+      color: #555;
+    }
+  }
+}
+
+.reviews-section {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+
+  h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .review {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    margin-bottom: 10px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #555;
+    }
+  }
+
+  .review-form {
+    margin-top: 20px;
+
+    .form-group {
+      margin-bottom: 15px;
+
+      label {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      input, textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+    }
+
+    .submit-btn {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

@@ -6,10 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RecipeService {
-  private apiUrl = 'http://localhost:8082/api/recipe'
-  constructor(private http: HttpClient) { }
+  private apiUrl = 'http://localhost:8081/api/recipe';
 
+  constructor(private http: HttpClient) {}
+
+  getRecipeDetails(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
   getTest(): Observable<string> {
-    return this.http.get<string>(this.apiUrl);
+    return this.http.get<string>(`${this.apiUrl}/test`);
   }
 }
