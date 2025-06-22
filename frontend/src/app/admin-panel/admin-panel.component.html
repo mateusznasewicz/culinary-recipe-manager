@@ -1,67 +1,60 @@
-<div class="admin-container">
-  <div class="admin-tabs">
-    <button
-      class="tab-button"
-      [class.active]="activeTab === 'ingredients'"
-      (click)="switchTab('ingredients')">
-      Składniki
-    </button>
-    <button
-      class="tab-button"
-      [class.active]="activeTab === 'units'"
-      (click)="switchTab('units')">
-      Jednostki
-    </button>
-    <button
-      class="tab-button"
-      [class.active]="activeTab === 'tags'"
-      (click)="switchTab('tags')">
-      Tagi
-    </button>
-  </div>
+<div class="flex flex-col items-center justify-center min-h-screen bg-base-100 p-4">
+  <div class="culinary-card w-full max-w-4xl">
+    <div class="tabs tabs-boxed mb-4">
+      <a class="tab" [class.tab-active]="activeTab === 'ingredients'" (click)="switchTab('ingredients')">Składniki</a>
+      <a class="tab" [class.tab-active]="activeTab === 'units'" (click)="switchTab('units')">Jednostki</a>
+      <a class="tab" [class.tab-active]="activeTab === 'tags'" (click)="switchTab('tags')">Tagi</a>
+    </div>
 
-  <div class="form-section" [class.active]="activeTab === 'ingredients'">
-    <h2>Dodaj składnik</h2>
-    <form [formGroup]="ingredientForm" (ngSubmit)="addIngredient()">
-      <input type="text" formControlName="name" placeholder="Nazwa składnika" />
-      <button type="submit" [disabled]="ingredientForm.invalid">Dodaj</button>
-    </form>
-    <ul>
-      <li *ngFor="let ingredient of ingredients">
-        {{ ingredient.name }}
-        <button (click)="editItem('ingredient', ingredient)">✏️</button>
-        <button (click)="deleteItem('ingredient', ingredient.id)">🗑️</button>
-      </li>
-    </ul>
-  </div>
+    <!-- Składniki -->
+    <div *ngIf="activeTab === 'ingredients'" class="slide-in-up">
+      <form [formGroup]="ingredientForm" (ngSubmit)="addIngredient()" class="flex gap-2 mb-4">
+        <input formControlName="name" type="text" placeholder="Dodaj składnik" class="culinary-input" />
+        <button type="submit" class="culinary-btn-primary">Dodaj</button>
+      </form>
+      <ul class="list-disc pl-6">
+        <li *ngFor="let ingredient of ingredients" class="mb-2 flex justify-between items-center">
+          <span>{{ ingredient.name }}</span>
+          <div class="flex gap-2">
+            <button class="btn btn-sm btn-outline" (click)="editItem('ingredient', ingredient)">Edytuj</button>
+            <button class="btn btn-sm btn-error" (click)="deleteItem('ingredient', ingredient.id)">Usuń</button>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-  <div class="form-section" [class.active]="activeTab === 'units'">
-    <h2>Dodaj jednostkę</h2>
-    <form [formGroup]="unitForm" (ngSubmit)="addUnit()">
-      <input type="text" formControlName="name" placeholder="Nazwa jednostki" />
-      <button type="submit" [disabled]="unitForm.invalid">Dodaj</button>
-    </form>
-    <ul>
-      <li *ngFor="let unit of units">
-        {{ unit.name }}
-        <button (click)="editItem('unit', unit)">✏️</button>
-        <button (click)="deleteItem('unit', unit.id)">🗑️</button>
-      </li>
-    </ul>
-  </div>
+    <!-- Jednostki -->
+    <div *ngIf="activeTab === 'units'" class="slide-in-up">
+      <form [formGroup]="unitForm" (ngSubmit)="addUnit()" class="flex gap-2 mb-4">
+        <input formControlName="name" type="text" placeholder="Dodaj jednostkę" class="culinary-input" />
+        <button type="submit" class="culinary-btn-primary">Dodaj</button>
+      </form>
+      <ul class="list-disc pl-6">
+        <li *ngFor="let unit of units" class="mb-2 flex justify-between items-center">
+          <span>{{ unit.name }}</span>
+          <div class="flex gap-2">
+            <button class="btn btn-sm btn-outline" (click)="editItem('unit', unit)">Edytuj</button>
+            <button class="btn btn-sm btn-error" (click)="deleteItem('unit', unit.id)">Usuń</button>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-  <div class="form-section" [class.active]="activeTab === 'tags'">
-    <h2>Dodaj tag</h2>
-    <form [formGroup]="tagForm" (ngSubmit)="addTag()">
-      <input type="text" formControlName="name" placeholder="Nazwa tagu" />
-      <button type="submit" [disabled]="tagForm.invalid">Dodaj</button>
-    </form>
-    <ul>
-      <li *ngFor="let tag of tags">
-        {{ tag.name }}
-        <button (click)="editItem('tag', tag)">✏️</button>
-        <button (click)="deleteItem('tag', tag.id)">🗑️</button>
-      </li>
-    </ul>
+    <!-- Tagi -->
+    <div *ngIf="activeTab === 'tags'" class="slide-in-up">
+      <form [formGroup]="tagForm" (ngSubmit)="addTag()" class="flex gap-2 mb-4">
+        <input formControlName="name" type="text" placeholder="Dodaj tag" class="culinary-input" />
+        <button type="submit" class="culinary-btn-primary">Dodaj</button>
+      </form>
+      <ul class="list-disc pl-6">
+        <li *ngFor="let tag of tags" class="mb-2 flex justify-between items-center">
+          <span>{{ tag.name }}</span>
+          <div class="flex gap-2">
+            <button class="btn btn-sm btn-outline" (click)="editItem('tag', tag)">Edytuj</button>
+            <button class="btn btn-sm btn-error" (click)="deleteItem('tag', tag.id)">Usuń</button>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

@@ -1,80 +1,27 @@
-.admin-container {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 600px;
-  margin: 50px auto;
+.culinary-card {
+  @apply bg-base-200 shadow-xl rounded-2xl p-6 text-white;
+  animation: fadeInSlideUp 0.4s ease-out;
 }
 
-.admin-tabs {
-  display: flex;
-  margin-bottom: 20px;
-
-  .tab-button {
-    flex: 1;
-    padding: 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    color: #6c757d;
-    transition: all 0.3s ease;
-
-    &.active {
-      color: #ff6b6b;
-      background: white;
-    }
-
-    &:hover:not(.active) {
-      background: rgba(255, 107, 107, 0.1);
-    }
-  }
+.culinary-input {
+  @apply input input-bordered w-full max-w-xs;
 }
 
-.form-section {
-  display: none;
+.culinary-btn-primary {
+  @apply btn btn-primary;
+}
 
-  &.active {
-    display: block;
+.slide-in-up {
+  animation: fadeInSlideUp 0.4s ease-out;
+}
+
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-
-  h2 {
-    margin-bottom: 15px;
-    font-size: 20px;
-    color: #333;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-
-    input {
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 2px solid #e9ecef;
-      border-radius: 8px;
-    }
-
-    button {
-      padding: 10px;
-      background: linear-gradient(135deg, #ff6b6b, #ffa500);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.3s ease;
-
-      &:hover {
-        background: linear-gradient(135deg, #ffa500, #ff6b6b);
-      }
-
-      &:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-      }
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

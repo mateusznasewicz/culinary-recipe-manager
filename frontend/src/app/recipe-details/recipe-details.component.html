@@ -1,60 +1,146 @@
-<div class="recipe-details-container">
-  <!-- Sekcja przepisu -->
-  <div class="recipe-section">
-    <div class="recipe-header">
+<div class="recipe-container">
+  <div class="culinary-card slide-in-up">
+
+    <!-- Header przepisu -->
+    <div class="culinary-gradient recipe-header">
       <h1>{{ recipe?.title }}</h1>
-      <p class="author">Autor: {{ recipe?.author }}</p>
-      <p class="rating">Średnia ocena: {{ recipe?.averageRating || 'Brak ocen' }}</p>
+      <div class="header-badges">
+        <div class="header-badge">
+          <span class="mr-1">👨‍🍳</span>
+          {{ recipe?.author }}
+        </div>
+        <div class="header-badge">
+          <span class="mr-1">⭐</span>
+          {{ recipe?.averageRating || 'Brak ocen' }}
+        </div>
+      </div>
     </div>
 
-    <div class="recipe-info">
-      <p><strong>Opis:</strong> {{ recipe?.description }}</p>
-      <p><strong>Czas przygotowania:</strong> {{ recipe?.time }} minut</p>
-      <p><strong>Porcje:</strong> {{ recipe?.portions }}</p>
-      <p><strong>Poziom trudności:</strong> {{ recipe?.difficulty }}</p>
-      <p><strong>Tagi:</strong> {{ recipe?.tags?.join(', ') }}</p>
-    </div>
+    <div class="p-8 space-y-8">
 
-    <div class="recipe-ingredients">
-      <h2>Składniki:</h2>
-      <ul>
-        <li *ngFor="let ingredient of recipe?.ingredients">{{ ingredient }}</li>
-      </ul>
+      <!-- Informacje o przepisie -->
+      <div class="stats-grid">
+        <div class="stat-time">
+          <div class="stat-title">Czas</div>
+          <div class="stat-value">{{ recipe?.time || 'Nie podano' }}</div>
+          <div class="stat-desc">minut</div>
+        </div>
+
+        <div class="stat-portions">
+          <div class="stat-title">Porcje</div>
+          <div class="stat-value">{{ recipe?.portions || 'Nie podano' }}</div>
+          <div class="stat-desc">osób</div>
+        </div>
+
+        <div class="stat-difficulty">
+          <div class="stat-title">Trudność</div>
+          <div class="stat-value">{{ recipe?.difficulty || 'Nie podano' }}</div>
+        </div>
+
+        <div class="stat-tags">
+          <div class="stat-title">Tagi</div>
+          <div class="tag-list">
+            <span *ngFor="let tag of recipe?.tags" class="tag">
+              {{ tag || 'Brak tagów' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opis -->
+      <div class="content-section description-section">
+        <h2>Opis</h2>
+        <p>{{ recipe?.description || 'Brak opisu' }}</p>
+      </div>
+
+      <!-- Składniki -->
+      <div class="content-section ingredients-section">
+        <h2>Składniki</h2>
+        <ul class="ingredients-list">
+          <li *ngFor="let ingredient of recipe?.ingredients" class="ingredient-item">
+            <span class="ingredient-text">{{ ingredient || 'Brak składników' }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Kroki -->
+      <div class="content-section steps-section">
+        <h2>Kroki przygotowania</h2>
+        <ul class="steps-list">
+          <li *ngFor="let step of recipe?.steps" class="step-item">
+            <span class="step-text">{{ step || 'Brak kroków' }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-
-  <div class="recipe-steps">
-    <h2>Kroki:</h2>
-    <ol>
-      <li *ngFor="let step of recipe?.steps">{{ step }}</li>
-    </ol>
-  </div>
-
 
   <!-- Sekcja recenzji -->
-  <div class="reviews-section">
-    <h2>Recenzje:</h2>
-    <div *ngIf="reviews.length === 0" class="no-reviews">Brak recenzji</div>
-    <div *ngFor="let review of reviews" class="review">
-      <p><strong>Autor:</strong> {{ review.author }}</p>
-      <p><strong>Ocena:</strong> {{ review.rating }}</p>
-      <p><strong>Komentarz:</strong> {{ review.comment }}</p>
-    </div>
+  <div class="culinary-card mt-8 slide-in-up">
+    <div class="reviews-section">
+      <h2 class="section-title">Recenzje</h2>
 
-    <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="review-form">
-      <h3>Dodaj recenzję:</h3>
-      <div class="form-group">
-        <label for="rating">Ocena (1-5):</label>
-        <input type="number" id="rating" formControlName="rating" min="1" max="5">
+      <!-- Lista recenzji -->
+      <div class="reviews-list">
+        <div *ngIf="reviews.length === 0" class="no-reviews">
+          <p class="no-reviews-title">Brak recenzji</p>
+          <p class="no-reviews-subtitle">Bądź pierwszy, który oceni ten przepis!</p>
+        </div>
+
+        <div *ngFor="let review of reviews" class="review-card">
+          <div class="review-body">
+            <div class="review-header">
+              <div class="review-author-info">
+                <h3 class="author-name">{{ review.author }}</h3>
+              </div>
+              <div class="review-rating-badge">{{ review.rating }}/5</div>
+            </div>
+            <p class="review-comment">{{ review.comment }}</p>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="comment">Komentarz:</label>
-        <textarea id="comment" formControlName="comment"></textarea>
+
+      <!-- Formularz dodawania recenzji -->
+      <div class="review-form-section">
+        <h3 class="form-title">Dodaj recenzję</h3>
+
+        <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="review-form">
+          <!-- Ocena -->
+          <div class="form-control rating-control">
+            <label class="label">Ocena (1-5)</label>
+            <div class="rating rating-lg">
+              <input
+                *ngFor="let star of [1,2,3,4,5]"
+                type="radio"
+                class="mask mask-star-2 bg-orange-400"
+                formControlName="rating"
+                [value]="star" />
+            </div>
+            <span class="error-message" *ngIf="hasFieldError('rating')">{{ getFieldError('rating') }}</span>
+          </div>
+
+          <!-- Komentarz -->
+          <div class="form-control comment-control">
+            <label class="label">Komentarz</label>
+            <textarea
+              class="comment-textarea"
+              placeholder="Podziel się swoimi wrażeniami z przepisu..."
+              formControlName="comment"></textarea>
+            <span class="error-message" *ngIf="hasFieldError('comment')">{{ getFieldError('comment') }}</span>
+          </div>
+
+          <!-- Przycisk submit -->
+          <div class="form-control">
+            <button
+              type="submit"
+              [disabled]="reviewForm.invalid || isSubmitting"
+              class="submit-btn">
+              <span *ngIf="!isSubmitting">Dodaj recenzję</span>
+              <span *ngIf="isSubmitting">Dodawanie...</span>
+            </button>
+          </div>
+        </form>
       </div>
-      <button type="submit" [disabled]="reviewForm.invalid || isSubmitting" class="submit-btn">
-        <span *ngIf="!isSubmitting">Dodaj recenzję</span>
-        <span *ngIf="isSubmitting">Dodawanie...</span>
-      </button>
-    </form>
+    </div>
   </div>
 </div>

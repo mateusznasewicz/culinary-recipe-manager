@@ -1,60 +1,59 @@
-<div class="form-section">
-  <h2>Dodaj przepis</h2>
-  <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-    <input type="text" formControlName="title" placeholder="Tytuł przepisu" class="form-input" />
-    <textarea formControlName="description" placeholder="Opis przepisu" class="form-input"></textarea>
+<div class="culinary-card p-6 max-w-2xl mx-auto slide-in-up">
+  <h2 class="text-2xl font-bold mb-4 text-center text-white">Dodaj przepis</h2>
+  <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="space-y-4">
 
-    <select formControlName="difficulty" class="form-input">
+    <input type="text" formControlName="title" placeholder="Tytuł przepisu" class="culinary-input" />
+
+    <textarea formControlName="description" placeholder="Opis przepisu" class="culinary-input"></textarea>
+
+    <select formControlName="difficulty" class="culinary-input">
       <option value="" disabled>Wybierz poziom trudności</option>
       <option value="ŁATWY">Łatwy</option>
       <option value="ŚREDNI">Średni</option>
       <option value="TRUDNY">Trudny</option>
     </select>
 
-    <div class="form-group">
-      <label for="time">Czas gotowania (minuty):</label>
-      <input id="time" type="number" formControlName="time" placeholder="Czas gotowania" class="form-input" />
+    <div>
+      <label for="time" class="label">Czas gotowania (minuty):</label>
+      <input id="time" type="number" formControlName="time" placeholder="Czas gotowania" class="culinary-input" />
     </div>
-
-    <div class="form-group">
-      <label for="portions">Liczba porcji:</label>
-      <input id="portions" type="number" formControlName="portions" placeholder="Liczba porcji" class="form-input" max="100" />
-    </div>
-
 
     <div>
-      <h3>Tagi</h3>
-      <button type="button" (click)="addTag()" class="primary">Dodaj tag</button>
-      <ul>
-        <li *ngFor="let tag of tags.controls; let i = index" class="tag-item">
-          <div class="search-container">
-            <input 
-              type="text" 
-              [formControl]="getFormControl(tag.get('name'))" 
-              class="form-input"
+      <label for="portions" class="label">Liczba porcji:</label>
+      <input id="portions" type="number" formControlName="portions" placeholder="Liczba porcji" class="culinary-input" max="100" />
+    </div>
+
+    <div>
+      <h3 class="text-lg font-semibold text-white mt-4">Tagi</h3>
+      <button type="button" (click)="addTag()" class="culinary-btn-secondary mt-2">Dodaj tag</button>
+
+      <ul class="space-y-2 mt-2">
+        <li *ngFor="let tag of tags.controls; let i = index" class="flex gap-2 items-start">
+          <div class="relative w-full">
+            <input
+              type="text"
+              [formControl]="getFormControl(tag.get('name'))"
+              class="culinary-input"
               placeholder="Wyszukaj tag..."
               autocomplete="off"
               (focus)="onTagInputFocus(i)"
               (blur)="onTagInputBlur(i)"
             />
-            
-            <div class="search-results" *ngIf="tagSearchResults[i] && tagSearchResults[i].length > 0 && activeTagInput === i">
-              <div 
-                class="search-result-item" 
+            <div *ngIf="tagSearchResults[i]?.length && activeTagInput === i" class="absolute left-0 right-0 bg-white rounded shadow mt-1 z-10">
+              <div
                 *ngFor="let tagOption of tagSearchResults[i]"
                 (mousedown)="selectTag(i, tagOption)"
+                class="p-2 hover:bg-orange-100 cursor-pointer"
               >
                 {{ tagOption.name }}
               </div>
             </div>
-    
           </div>
-          
-          <button type="button" (click)="removeTag(i)" class="danger">🗑️</button>
+          <button type="button" (click)="removeTag(i)" class="btn btn-sm btn-error">🗑️</button>
         </li>
       </ul>
     </div>
 
-    <button type="submit" [disabled]="recipeForm.invalid" class="primary">Dodaj przepis</button>
+    <button type="submit" [disabled]="recipeForm.invalid" class="culinary-btn-primary w-full">Dodaj przepis</button>
   </form>
 </div>

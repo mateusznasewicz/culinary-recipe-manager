@@ -1,157 +1,219 @@
-<div class="floating-shapes">
-  <div class="shape"></div>
-  <div class="shape"></div>
-  <div class="shape"></div>
-</div>
+<!-- auth.component.html -->
+<div class="min-h-screen flex items-center justify-center p-4">
+  <div class="culinary-card w-full max-w-md slide-in-up">
 
-<div class="auth-container">
-  <div class="auth-header">
-    <span class="chef-icon">👨‍🍳</span>
-    <h1>Culinary Manager</h1>
-    <p>Zarządzaj swoimi przepisami</p>
-  </div>
-
-  <div class="auth-tabs">
-    <button
-      class="tab-button"
-      [class.active]="activeTab === 'login'"
-      (click)="switchTab('login')">
-      Logowanie
-    </button>
-    <button
-      class="tab-button"
-      [class.active]="activeTab === 'register'"
-      (click)="switchTab('register')">
-      Rejestracja
-    </button>
-  </div>
-
-  <!-- Login Form -->
-  <div class="form-section" [class.active]="activeTab === 'login'">
-    <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <div class="form-group">
-        <input
-          type="text"
-          class="form-input"
-          placeholder="Nazwa użytkownika"
-          formControlName="username"
-          [class.error]="loginUsername?.invalid && loginUsername?.touched">
-        <div class="field-error" *ngIf="loginUsername?.invalid && loginUsername?.touched">
-          <small *ngIf="loginUsername?.errors?.['required']">Nazwa użytkownika jest wymagana</small>
-          <small *ngIf="loginUsername?.errors?.['minlength']">Minimum 3 znaki</small>
-        </div>
+    <!-- Header -->
+    <div class="culinary-gradient text-white p-8 text-center relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10">
+        <svg viewBox="0 0 100 100" class="w-full h-full">
+          <circle cx="20" cy="20" r="2" fill="white"/>
+          <circle cx="80" cy="40" r="3" fill="white"/>
+          <circle cx="40" cy="80" r="1" fill="white"/>
+        </svg>
       </div>
 
-      <div class="form-group">
-        <input
-          [type]="showLoginPassword ? 'text' : 'password'"
-          class="form-input"
-          placeholder="Hasło"
-          formControlName="password"
-          [class.error]="loginPassword?.invalid && loginPassword?.touched">
-        <button
-          type="button"
-          class="password-toggle"
-          (click)="togglePasswordVisibility('login')">
-          {{ showLoginPassword ? '🙈' : '👁️' }}
-        </button>
-        <div class="field-error" *ngIf="loginPassword?.invalid && loginPassword?.touched">
-          <small *ngIf="loginPassword?.errors?.['required']">Hasło jest wymagane</small>
-          <small *ngIf="loginPassword?.errors?.['minlength']">Minimum 6 znaków</small>
-        </div>
+      <div class="relative z-10 text-gray-600">
+        <div class="text-4xl mb-4">👨‍🍳</div>
+        <h1 class="text-3xl font-bold mb-2">Culinary Manager</h1>
+        <p>Zarządzaj swoimi przepisami</p>
       </div>
+    </div>
 
-      <div class="error-message" *ngIf="loginError">
-        {{ loginError }}
-      </div>
+    <!-- Tabs -->
+    <div class="tabs tabs-boxed bg-gray-100 rounded-none">
+      <a
+        class="tab flex-1 text-base font-semibold transition-all duration-300"
+        [class.tab-active]="activeTab === 'login'"
+        [class.bg-white]="activeTab === 'login'"
+        [class.text-orange-600]="activeTab === 'login'"
+        [class.shadow-sm]="activeTab === 'login'"
+        (click)="switchTab('login')">
+        Logowanie
+      </a>
+      <a
+        class="tab flex-1 text-base font-semibold transition-all duration-300"
+        [class.tab-active]="activeTab === 'register'"
+        [class.bg-white]="activeTab === 'register'"
+        [class.text-orange-600]="activeTab === 'register'"
+        [class.shadow-sm]="activeTab === 'register'"
+        (click)="switchTab('register')">
+        Rejestracja
+      </a>
+    </div>
 
-      <button
-        type="submit"
-        class="submit-btn"
-        [disabled]="loginForm.invalid || isSubmitting">
-        <span *ngIf="!isSubmitting">Zaloguj się</span>
-        <span *ngIf="isSubmitting">Logowanie...</span>
-      </button>
-    </form>
-  </div>
+    <!-- Login Form -->
+    <div
+      class="p-8"
+      [class.hidden]="activeTab !== 'login'"
+      [class.fade-in]="activeTab === 'login'">
 
-  <!-- Register Form -->
-  <div class="form-section" [class.active]="activeTab === 'register'">
-    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="onRegister()">
-      <div class="form-group">
-        <input
-          type="text"
-          class="form-input"
-          placeholder="Nazwa użytkownika"
-          formControlName="username"
-          [class.error]="registerUsername?.invalid && registerUsername?.touched">
-        <div class="field-error" *ngIf="registerUsername?.invalid && registerUsername?.touched">
-          <small *ngIf="registerUsername?.errors?.['required']">Nazwa użytkownika jest wymagana</small>
-          <small *ngIf="registerUsername?.errors?.['minlength']">Minimum 3 znaki</small>
-        </div>
-      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="space-y-6">
+        <div class="form-control">
+          <input
+            type="text"
+            placeholder="Nazwa użytkownika"
+            formControlName="username"
+            class="culinary-input"
+            [class.input-error]="loginUsername?.invalid && loginUsername?.touched">
 
-      <div class="form-group">
-        <input
-          [type]="showRegisterPassword ? 'text' : 'password'"
-          class="form-input"
-          placeholder="Hasło"
-          formControlName="password"
-          (input)="onPasswordInput()"
-          [class.error]="registerPassword?.invalid && registerPassword?.touched">
-        <button
-          type="button"
-          class="password-toggle"
-          (click)="togglePasswordVisibility('register')">
-          {{ showRegisterPassword ? '🙈' : '👁️' }}
-        </button>
-        <div class="strength-indicator" *ngIf="registerPassword?.value">
-          <div
-            class="strength-bar"
-            [ngClass]="getPasswordStrengthClass()"
-            [style.width]="getPasswordStrengthWidth()">
+          <div class="label" *ngIf="loginUsername?.invalid && loginUsername?.touched">
+            <span class="label-text-alt text-error">
+              <span *ngIf="loginUsername?.errors?.['required']">Nazwa użytkownika jest wymagana</span>
+              <span *ngIf="loginUsername?.errors?.['minlength']">Minimum 3 znaki</span>
+            </span>
           </div>
         </div>
-        <div class="field-error" *ngIf="registerPassword?.invalid && registerPassword?.touched">
-          <small *ngIf="registerPassword?.errors?.['required']">Hasło jest wymagane</small>
-          <small *ngIf="registerPassword?.errors?.['minlength']">Minimum 6 znaków</small>
-        </div>
-      </div>
 
-      <div class="form-group">
-        <input
-          [type]="showConfirmPassword ? 'text' : 'password'"
-          class="form-input"
-          placeholder="Potwierdź hasło"
-          formControlName="confirmPassword"
-          [class.error]="confirmPassword?.invalid && confirmPassword?.touched">
+        <div class="form-control relative">
+          <input
+            [type]="showLoginPassword ? 'text' : 'password'"
+            placeholder="Hasło"
+            formControlName="password"
+            class="culinary-input pr-12"
+          />
+          <button
+            type="button"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl hover:text-orange-500 transition-colors"
+            (click)="togglePasswordVisibility('login')">
+            {{ showLoginPassword ? '🙈' : '👁️' }}
+          </button>
+
+          <div class="label" *ngIf="loginPassword?.invalid && loginPassword?.touched">
+            <span class="label-text-alt text-error">
+              <span *ngIf="loginPassword?.errors?.['required']">Hasło jest wymagane</span>
+              <span *ngIf="loginPassword?.errors?.['minlength']">Minimum 6 znaków</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="alert alert-error" *ngIf="loginError">
+          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>{{ loginError }}</span>
+        </div>
+
         <button
-          type="button"
-          class="password-toggle"
-          (click)="togglePasswordVisibility('confirm')">
-          {{ showConfirmPassword ? '🙈' : '👁️' }}
+          type="submit"
+          class="culinary-btn-primary w-full text-lg font-bold tracking-wide"
+          [disabled]="loginForm.invalid || isSubmitting">
+          <span *ngIf="!isSubmitting">Zaloguj się</span>
+          <span *ngIf="isSubmitting" class="flex items-center justify-center">
+            <span class="loading loading-spinner loading-sm mr-2"></span>
+            Logowanie...
+          </span>
         </button>
-        <div class="field-error" *ngIf="confirmPassword?.invalid && confirmPassword?.touched">
-          <small *ngIf="confirmPassword?.errors?.['required']">Potwierdzenie hasła jest wymagane</small>
-          <small *ngIf="confirmPassword?.errors?.['passwordMismatch']">Hasła nie są identyczne</small>
+      </form>
+    </div>
+
+    <!-- Register Form -->
+    <div
+      class="p-8"
+      [class.hidden]="activeTab !== 'register'"
+      [class.fade-in]="activeTab === 'register'">
+
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="space-y-6">
+        <div class="form-control">
+          <input
+            type="text"
+            placeholder="Nazwa użytkownika"
+            formControlName="username"
+            class="culinary-input"
+            [class.input-error]="registerUsername?.invalid && registerUsername?.touched">
+
+          <div class="label" *ngIf="registerUsername?.invalid && registerUsername?.touched">
+            <span class="label-text-alt text-error">
+              <span *ngIf="registerUsername?.errors?.['required']">Nazwa użytkownika jest wymagana</span>
+              <span *ngIf="registerUsername?.errors?.['minlength']">Minimum 3 znaki</span>
+            </span>
+          </div>
         </div>
-      </div>
 
-      <div class="error-message" *ngIf="registerError">
-        {{ registerError }}
-      </div>
+        <div class="form-control relative">
+          <input
+            [type]="showRegisterPassword ? 'text' : 'password'"
+            placeholder="Hasło"
+            formControlName="password"
+            (input)="onPasswordInput()"
+            class="culinary-input pr-12"
+            [class.input-error]="registerPassword?.invalid && registerPassword?.touched">
 
-      <div class="success-message" *ngIf="registerSuccess">
-        {{ registerSuccess }}
-      </div>
+          <button
+            type="button"
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-lg hover:text-blue-600 transition-colors"
+            (click)="togglePasswordVisibility('login')">
+            {{ showLoginPassword ? '🙈' : '👁️' }}
+          </button>
 
-      <button
-        type="submit"
-        class="submit-btn"
-        [disabled]="registerForm.invalid || isSubmitting">
-        <span *ngIf="!isSubmitting">Zarejestruj się</span>
-        <span *ngIf="isSubmitting">Rejestracja...</span>
-      </button>
-    </form>
+          <!-- Password Strength Indicator -->
+          <div class="w-full bg-gray-200 rounded-full h-1 mt-2" *ngIf="registerPassword?.value">
+            <div
+              class="h-1 rounded-full transition-all duration-300"
+              [ngClass]="{
+        'bg-red-500': passwordStrength <= 2,
+        'bg-yellow-500': passwordStrength === 3,
+        'bg-green-500': passwordStrength >= 4
+      }"
+              [style.width]="getPasswordStrengthWidth()">
+            </div>
+          </div>
+
+          <div class="label" *ngIf="registerPassword?.invalid && registerPassword?.touched">
+            <span class="label-text-alt text-error">
+              <span *ngIf="registerPassword?.errors?.['required']">Hasło jest wymagane</span>
+              <span *ngIf="registerPassword?.errors?.['minlength']">Minimum 6 znaków</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-control relative">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            placeholder="Potwierdź hasło"
+            formControlName="confirmPassword"
+            class="culinary-input pr-12"
+            [class.input-error]="confirmPassword?.invalid && confirmPassword?.touched">
+
+          <button
+            type="button"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl hover:text-orange-500 transition-colors"
+            (click)="togglePasswordVisibility('confirm')">
+            {{ showConfirmPassword ? '🙈' : '👁️' }}
+          </button>
+
+          <div class="label" *ngIf="confirmPassword?.invalid && confirmPassword?.touched">
+            <span class="label-text-alt text-error">
+              <span *ngIf="confirmPassword?.errors?.['required']">Potwierdzenie hasła jest wymagane</span>
+              <span *ngIf="confirmPassword?.errors?.['passwordMismatch']">Hasła nie są identyczne</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="alert alert-error" *ngIf="registerError">
+          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>{{ registerError }}</span>
+        </div>
+
+        <div class="alert alert-success" *ngIf="registerSuccess">
+          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>{{ registerSuccess }}</span>
+        </div>
+
+        <button
+          type="submit"
+          class="culinary-btn-primary w-full text-lg font-bold tracking-wide"
+          [disabled]="registerForm.invalid || isSubmitting">
+          <span *ngIf="!isSubmitting">Zarejestruj się</span>
+          <span *ngIf="isSubmitting" class="flex items-center justify-center">
+            <span class="loading loading-spinner loading-sm mr-2"></span>
+            Rejestracja...
+          </span>
+        </button>
+      </form>
+    </div>
   </div>
 </div>

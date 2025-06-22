@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
-  private apiUrl = 'http://localhost:8081/api/recipe';
+  private apiUrl = 'http://localhost:8080/api/recipe';
 
   constructor(private http: HttpClient) {}
 
   getRecipeDetails(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get(`${this.apiUrl}/${id}`, { headers });
   }
 }
