@@ -23,4 +23,20 @@ export class RecipeService {
     });
     return this.http.post(`${this.apiUrl}`, recipeData, { headers, responseType: 'text' });
   }
+
+  searchRecipes(query: string, page: number, size: number): Observable<any> {
+    const url = query
+      ? `${this.apiUrl}?q=${encodeURIComponent(query)}&page=${page}&size=${size}`
+      : `${this.apiUrl}?page=${page}&size=${size}`;
+    return this.http.get(url);
+  }
+
+  searchRecipesByTags(tags: string[], page: number, size: number): Observable<any> {
+    const params = tags.map(tag => `tags=${encodeURIComponent(tag)}`).join('&');
+    return this.http.get(`${this.apiUrl}?${params}&page=${page}&size=${size}`);
+  }
+
+
+
+
 }

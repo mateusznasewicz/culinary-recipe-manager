@@ -5,6 +5,7 @@ import pl.edu.pwr.queryservice.entity.DifficultyLevel;
 import java.util.List;
 
 public record RecipeDTO(
+    Long id,
     String author,
     String title,
     Integer time,

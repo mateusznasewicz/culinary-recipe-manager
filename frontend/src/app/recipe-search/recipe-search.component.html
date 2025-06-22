@@ -1,0 +1,89 @@
+<div class="floating-shapes">
+  <div class="floating-shape"></div>
+  <div class="floating-shape"></div>
+  <div class="floating-shape"></div>
+</div>
+<div class="max-w-4xl mx-auto p-6 slide-in-up">
+  <div class="culinary-card">
+    <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Wyszukaj przepisy</h2>
+    <form [formGroup]="searchForm" class="space-y-4">
+      <!-- Wyszukiwanie po tytule -->
+      <div>
+        <input
+          type="text"
+          formControlName="query"
+          placeholder="Wpisz nazwę przepisu..."
+          class="culinary-input"
+        />
+      </div>
+
+      <!-- Tagi -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Tagi</label>
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Wpisz tag..."
+            class="culinary-input"
+            (input)="onTagInput($event)"
+          />
+          <div *ngIf="tagSearchResults.length" class="culinary-dropdown">
+            <div
+              *ngFor="let tag of tagSearchResults"
+              (click)="addTag(tag)"
+              class="culinary-dropdown-item"
+            >
+              {{ tag.name }}
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-2">
+          <span
+            *ngFor="let tag of tagsControl.value"
+            class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full flex items-center text-sm"
+          >
+            {{ tag }}
+            <button type="button" (click)="removeTag(tag)" class="ml-2 text-red-500">×</button>
+          </span>
+        </div>
+      </div>
+
+      <!-- Przyciski -->
+      <div class="flex justify-center gap-4">
+        <button type="button" (click)="resetFilters()" class="culinary-btn-secondary">Wyczyść filtry</button>
+        <button type="submit" (click)="searchRecipes()" class="culinary-btn-primary">Wyszukaj</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Wyniki -->
+  <div *ngIf="isLoading" class="text-center p-4 text-gray-700">Ładowanie...</div>
+  <div *ngIf="!isLoading && recipes.length === 0" class="text-center p-4 text-gray-700">Brak wyników</div>
+  <div *ngIf="!isLoading && recipes.length > 0" class="mt-6 space-y-4 fade-in">
+    <div *ngFor="let recipe of recipes" class="culinary-result-card">
+      <a [routerLink]="['/recipe', recipe.id]" class="text-xl font-semibold text-orange-600 hover:underline">{{ recipe.title }}</a>
+      <p class="text-gray-600">Autor: {{ recipe.author }}</p>
+      <p *ngIf="recipe.time" class="text-gray-600">Czas: {{ recipe.time }} min</p>
+      <p *ngIf="recipe.tags.length" class="text-gray-600">Tagi: {{ recipe.tags.join(', ') }}</p>
+    </div>
+
+    <!-- Paginacja -->
+    <div class="flex justify-center gap-4 mt-4">
+      <button
+        (click)="changePage(currentPage - 1)"
+        [disabled]="currentPage === 0"
+        class="culinary-btn-secondary"
+      >
+        Poprzednia
+      </button>
+      <span class="self-center text-gray-700">Strona {{ currentPage + 1 }} z {{ totalPages }}</span>
+      <button
+        (click)="changePage(currentPage + 1)"
+        [disabled]="currentPage === totalPages - 1"
+        class="culinary-btn-secondary"
+      >
+        Następna
+      </button>
+    </div>
+  </div>
+</div>
