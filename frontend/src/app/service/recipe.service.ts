@@ -14,7 +14,13 @@ export class RecipeService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-
     return this.http.get(`${this.apiUrl}/${id}`, { headers });
+  }
+
+  addRecipe(recipeData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(`${this.apiUrl}`, recipeData, { headers, responseType: 'text' });
   }
 }

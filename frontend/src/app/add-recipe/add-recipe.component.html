@@ -1,7 +1,6 @@
 <div class="culinary-card p-6 max-w-2xl mx-auto slide-in-up">
   <h2 class="text-2xl font-bold mb-4 text-center text-white">Dodaj przepis</h2>
   <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="space-y-4">
-
     <input type="text" formControlName="title" placeholder="Tytuł przepisu" class="culinary-input" />
 
     <textarea formControlName="description" placeholder="Opis przepisu" class="culinary-input"></textarea>
@@ -26,7 +25,6 @@
     <div>
       <h3 class="text-lg font-semibold text-white mt-4">Tagi</h3>
       <button type="button" (click)="addTag()" class="culinary-btn-secondary mt-2">Dodaj tag</button>
-
       <ul class="space-y-2 mt-2">
         <li *ngFor="let tag of tags.controls; let i = index" class="flex gap-2 items-start">
           <div class="relative w-full">
@@ -48,12 +46,104 @@
                 {{ tagOption.name }}
               </div>
             </div>
+            <div *ngIf="tag.get('name')?.touched && !tag.get('id')?.value" class="text-red-500 text-sm">
+              Wybierz tag z listy.
+            </div>
           </div>
           <button type="button" (click)="removeTag(i)" class="btn btn-sm btn-error">🗑️</button>
         </li>
       </ul>
     </div>
 
-    <button type="submit" [disabled]="recipeForm.invalid" class="culinary-btn-primary w-full">Dodaj przepis</button>
+    <div>
+      <h3 class="text-lg font-semibold text-white mt-4">Kroki przepisu</h3>
+      <button type="button" (click)="addStep()" class="culinary-btn-secondary mt-2">Dodaj krok</button>
+      <ul class="space-y-2 mt-2">
+        <li *ngFor="let step of recipeSteps.controls; let i = index" class="flex gap-2 items-start">
+          <div class="w-full">
+            <input
+              type="number"
+              [formControl]="getFormControl(step.get('stepNumber'))"
+              class="culinary-input w-16"
+              placeholder="Nr"
+              readonly
+            />
+            <textarea
+              [formControl]="getFormControl(step.get('description'))"
+              class="culinary-input w-full mt-1"
+              placeholder="Opis kroku"
+            ></textarea>
+          </div>
+          <button type="button" (click)="removeStep(i)" class="btn btn-sm btn-error">🗑️</button>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-semibold text-white mt-4">Składniki</h3>
+      <button type="button" (click)="addIngredientUnit()" class="culinary-btn-secondary mt-2">Dodaj składnik</button>
+      <ul class="space-y-2 mt-2">
+        <li *ngFor="let ingredient of ingredientUnits.controls; let i = index" class="flex gap-2 items-start">
+          <div class="w-full flex gap-2">
+            <div class="relative flex-1">
+              <input
+                type="text"
+                [formControl]="getFormControl(ingredient.get('ingredientName'))"
+                class="culinary-input"
+                placeholder="Wyszukaj składnik..."
+                autocomplete="off"
+                (focus)="onIngredientInputFocus(i)"
+                (blur)="onIngredientInputBlur(i)"
+              />
+              <div *ngIf="ingredientSearchResults[i]?.length && activeIngredientInput === i" class="absolute left-0 right-0 bg-white rounded shadow mt-1 z-10">
+                <div
+                  *ngFor="let ingredientOption of ingredientSearchResults[i]"
+                  (mousedown)="selectIngredient(i, ingredientOption)"
+                  class="p-2 hover:bg-orange-100 cursor-pointer"
+                >
+                  {{ ingredientOption.name }}
+                </div>
+              </div>
+              <div *ngIf="ingredient.get('ingredientName')?.touched && !ingredient.get('ingredientId')?.value" class="text-red-500 text-sm">
+                Wybierz składnik z listy.
+              </div>
+            </div>
+            <input
+              type="number"
+              [formControl]="getFormControl(ingredient.get('quantity'))"
+              class="culinary-input w-20"
+              placeholder="Ilość"
+              step="0.01"
+            />
+            <div class="relative w-32">
+              <input
+                type="text"
+                [formControl]="getFormControl(ingredient.get('unitName'))"
+                class="culinary-input"
+                placeholder="Jednostka..."
+                autocomplete="off"
+                (focus)="onUnitInputFocus(i)"
+                (blur)="onUnitInputBlur(i)"
+              />
+              <div *ngIf="unitSearchResults[i]?.length && activeUnitInput === i" class="absolute left-0 right-0 bg-white rounded shadow mt-1 z-10">
+                <div
+                  *ngFor="let unitOption of unitSearchResults[i]"
+                  (mousedown)="selectUnit(i, unitOption)"
+                  class="p-2 hover:bg-orange-100 cursor-pointer"
+                >
+                  {{ unitOption.name }}
+                </div>
+              </div>
+              <div *ngIf="ingredient.get('unitName')?.touched && !ingredient.get('unitId')?.value" class="text-red-500 text-sm">
+                Wybierz jednostkę z listy.
+              </div>
+            </div>
+          </div>
+          <button type="button" (click)="removeIngredientUnit(i)" class="btn btn-sm btn-error">🗑️</button>
+        </li>
+      </ul>
+    </div>
+
+    <button type="submit" [disabled]="recipeForm.invalid || isSubmitting" class="culinary-btn-primary w-full">Dodaj przepis</button>
   </form>
 </div>
