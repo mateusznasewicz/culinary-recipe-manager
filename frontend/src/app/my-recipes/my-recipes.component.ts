@@ -17,6 +17,7 @@ import {NgForOf, NgIf} from '@angular/common';
 })
 export class MyRecipesComponent implements OnInit {
   recipes: any[] = [];
+  isLoading = false;
 
   constructor(private authService: AuthService, private recipeService: RecipeService) {}
 
@@ -24,10 +25,10 @@ export class MyRecipesComponent implements OnInit {
     const username = this.authService.getCurrentUsername();
     console.log(username)
     if (username) {
-      console.log(username)
+      this.isLoading = true;
       this.recipeService.getRecipesByUsername(username).subscribe(recipes => {
         this.recipes = recipes._embedded.recipeDTOList;
-        console.log('My Recipes:', this.recipes);
+        this.isLoading = false;
       });
     }
   }
