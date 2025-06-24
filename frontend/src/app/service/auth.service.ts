@@ -135,7 +135,7 @@ export class AuthService {
     if (token) {
       try {
         const decoded: any = jwtDecode(token);
-        return decoded.role === 'admin'; // Zakładając, że rola jest w tokenie
+        return decoded.role === 'ROLE_ADMIN';
       } catch (error) {
         return false;
       }
