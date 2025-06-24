@@ -1,70 +1,48 @@
-<div class="floating-shapes">
-  <div class="floating-shape"></div>
-  <div class="floating-shape"></div>
-  <div class="floating-shape"></div>
-</div>
+<div *ngIf="shouldShowNavBar()">
+  <!-- Globalne menu -->
+  <div class="navbar bg-white/90 backdrop-blur-lg shadow-lg sticky top-0 z-50 border-b border-white/20">
+    <div class="navbar-start">
+      <div class="dropdown lg:hidden">
+        <label tabindex="0" class="btn btn-ghost">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </label>
+        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a class="text-orange-600 hover:bg-orange-50" routerLink="/search">Wyszukaj przepis</a></li>
+          <li><a class="text-orange-600 hover:bg-orange-50" routerLink="/my-recipes">Moje przepisy</a></li>
+          <li><a class="text-orange-600 hover:bg-orange-50" routerLink="/add-recipe">Dodaj przepis</a></li>
+        </ul>
+      </div>
 
-<!-- Globalne menu -->
-<div class="navbar bg-white/90 backdrop-blur-lg shadow-lg sticky top-0 z-50 border-b border-white/20">
-  <div class="navbar-start">
-    <div class="dropdown lg:hidden">
-      <label tabindex="0" class="btn btn-ghost">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </label>
-      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li><a class="text-orange-600 hover:bg-orange-50" routerLink="/search">Wyszukaj przepis</a></li>
-        <li><a class="text-orange-600 hover:bg-orange-50" routerLink="/my-recipes">Moje przepisy</a></li>
-        <li><a class="text-orange-600 hover:bg-orange-50" routerLink="/add-recipe">Dodaj przepis</a></li>
+      <a class="btn btn-ghost text-xl lg:text-2xl font-bold text-orange-600">
+        <span class="text-2xl mr-2">👨‍🍳</span>
+        Culinary Manager
+      </a>
+    </div>
 
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal px-1">
+        <li><a class="text-orange-600 hover:bg-orange-50 font-medium" routerLink="/search">Wyszukaj przepis</a></li>
+        <li><a class="text-orange-600 hover:bg-orange-50 font-medium" routerLink="/my-recipes">Moje przepisy</a></li>
+        <li><a class="text-orange-600 hover:bg-orange-50 font-medium" routerLink="/add-recipe">Dodaj przepis</a></li>
       </ul>
     </div>
 
-    <a class="btn btn-ghost text-xl lg:text-2xl font-bold text-orange-600">
-      <span class="text-2xl mr-2">👨‍🍳</span>
-      Culinary Manager
-    </a>
-  </div>
-
-  <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1">
-      <li><a class="text-orange-600 hover:bg-orange-50 font-medium" routerLink="/search">Wyszukaj przepis</a></li>
-      <li><a class="text-orange-600 hover:bg-orange-50 font-medium" routerLink="/my-recipes">Moje przepisy</a></li>
-      <li><a class="text-orange-600 hover:bg-orange-50 font-medium" routerLink="/add-recipe">Dodaj przepis</a></li>
-
-    </ul>
-  </div>
-
-  <div class="navbar-end gap-2">
-    <!-- Profil użytkownika -->
-    <div class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-        <div class="w-8 rounded-full bg-gradient-to-r from-orange-400 to-red-500 flex items-center justify-center">
-          <span class="text-white text-sm font-bold">👤</span>
-        </div>
-      </label>
-      <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-        <li *ngIf="authService.isAdmin()"><a class="text-orange-600" routerLink="/admin">Panel admina</a></li>
-        <li><a class="text-red-600" (click)="logout()">Wyloguj</a></li>
-      </ul>
+    <div class="navbar-end gap-2">
+      <!-- Profil użytkownika -->
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+          <div class="w-8 rounded-full bg-gradient-to-r from-orange-400 to-red-500 flex items-center justify-center">
+            <span class="text-white text-sm font-bold">👤</span>
+          </div>
+        </label>
+        <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+          <li *ngIf="authService.isAdmin()"><a class="text-orange-600" routerLink="/admin">Panel admina</a></li>
+          <li><a class="text-red-600" (click)="logout()">Wyloguj</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- Główna zawartość -->
-<main class="min-h-screen pt-4">
-  <router-outlet></router-outlet>
-</main>
-
-<!-- Footer (opcjonalny) -->
-<footer class="footer footer-center p-10 bg-white/80 backdrop-blur-sm text-base-content mt-20">
-  <div>
-    <span class="text-3xl">👨‍🍳</span>
-    <p class="font-bold text-orange-600">
-      Culinary Manager <br/>
-      Twoje przepisy w jednym miejscu
-    </p>
-    <p class="text-sm text-gray-600">Copyright © 2024 - Wszystkie prawa zastrzeżone</p>
-  </div>
-</footer>
+<router-outlet></router-outlet>
