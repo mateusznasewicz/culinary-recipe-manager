@@ -16,12 +16,7 @@
     <div *ngIf="activeTab === 'ingredients'" class="fade-in">
       <form [formGroup]="ingredientForm" (ngSubmit)="addIngredient()" class="flex gap-6 mb-8">
         <div class="relative w-full">
-          <input formControlName="name" type="text" placeholder="Wpisz składnik..." class="culinary-input border-2 border-gray-300" (input)="onSearchInput($event, 'ingredients')" />
-          <div *ngIf="searchResults.length && activeTab === 'ingredients'" class="culinary-dropdown">
-            <div *ngFor="let result of searchResults" (click)="selectSearchResult(result, 'ingredients')" class="culinary-dropdown-item">
-              {{ result.name }}
-            </div>
-          </div>
+          <input formControlName="name" type="text" placeholder="Wpisz składnik..." class="culinary-input border-2 border-gray-300" />
         </div>
         <button type="submit" class="culinary-btn-primary">Dodaj</button>
       </form>
@@ -30,8 +25,8 @@
         <li *ngFor="let ingredient of ingredients" class="flex justify-between items-center p-4 rounded-md hover:bg-gray-100">
           <span class="recipe-chip">{{ ingredient.name }}</span>
           <div class="flex gap-4">
-            <button class="culinary-btn-secondary">Edytuj</button>
-            <button class="culinary-btn-error">Usuń</button>
+            <button (click)="editItem('ingredient', ingredient)" class="culinary-btn-secondary">Edytuj</button>
+            <button (click)="deleteItem('ingredient', ingredient.id)" class="culinary-btn-error">Usuń</button>
           </div>
         </li>
       </ul>
@@ -41,12 +36,7 @@
     <div *ngIf="activeTab === 'units'" class="fade-in">
       <form [formGroup]="unitForm" (ngSubmit)="addUnit()" class="flex gap-6 mb-8">
         <div class="relative w-full">
-          <input formControlName="name" type="text" placeholder="Wpisz jednostkę..." class="culinary-input border-2 border-gray-300" (input)="onSearchInput($event, 'units')" />
-          <div *ngIf="searchResults.length && activeTab === 'units'" class="culinary-dropdown">
-            <div *ngFor="let result of searchResults" (click)="selectSearchResult(result, 'units')" class="culinary-dropdown-item">
-              {{ result.name }}
-            </div>
-          </div>
+          <input formControlName="name" type="text" placeholder="Wpisz jednostkę..." class="culinary-input border-2 border-gray-300" />
         </div>
         <button type="submit" class="culinary-btn-primary">Dodaj</button>
       </form>
@@ -55,8 +45,8 @@
         <li *ngFor="let unit of units" class="flex justify-between items-center p-4 rounded-md hover:bg-gray-100">
           <span class="recipe-chip">{{ unit.name }}</span>
           <div class="flex gap-4">
-            <button class="culinary-btn-secondary">Edytuj</button>
-            <button class="culinary-btn-error">Usuń</button>
+            <button (click)="editItem('unit', unit)" class="culinary-btn-secondary">Edytuj</button>
+            <button (click)="deleteItem('unit', unit.id)" class="culinary-btn-error">Usuń</button>
           </div>
         </li>
       </ul>
@@ -66,12 +56,7 @@
     <div *ngIf="activeTab === 'tags'" class="fade-in">
       <form [formGroup]="tagForm" (ngSubmit)="addTag()" class="flex gap-6 mb-8">
         <div class="relative w-full">
-          <input formControlName="name" type="text" placeholder="Wpisz tag..." class="culinary-input border-2 border-gray-300" (input)="onSearchInput($event, 'tags')" />
-          <div *ngIf="searchResults.length && activeTab === 'tags'" class="culinary-dropdown">
-            <div *ngFor="let result of searchResults" (click)="selectSearchResult(result, 'tags')" class="culinary-dropdown-item">
-              {{ result.name }}
-            </div>
-          </div>
+          <input formControlName="name" type="text" placeholder="Wpisz tag..." class="culinary-input border-2 border-gray-300" />
         </div>
         <button type="submit" class="culinary-btn-primary">Dodaj</button>
       </form>
@@ -80,8 +65,8 @@
         <li *ngFor="let tag of tags" class="flex justify-between items-center p-4 rounded-md hover:bg-gray-100">
           <span class="recipe-chip">{{ tag.name }}</span>
           <div class="flex gap-4">
-            <button class="culinary-btn-secondary">Edytuj</button>
-            <button class="culinary-btn-error">Usuń</button>
+            <button (click)="editItem('tag', tag)" class="culinary-btn-secondary">Edytuj</button>
+            <button (click)="deleteItem('tag', tag.id)" class="culinary-btn-error">Usuń</button>
           </div>
         </li>
       </ul>
