@@ -1,0 +1,12 @@
+<div class="max-w-4xl mx-auto p-8 slide-in-up">
+  <div class="culinary-card">
+    <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Moje Przepisy</h2>
+    <div *ngIf="recipes.length === 0" class="text-center text-gray-700 mb-8">Nie masz jeszcze żadnych przepisów.</div>
+    <ul class="space-y-4">
+      <li *ngFor="let recipe of recipes" class="flex justify-between items-center p-4 rounded-md hover:bg-gray-100">
+        <span class="recipe-chip">{{ recipe.name }}</span>
+        <a class="culinary-btn-secondary" routerLink="/recipe/{{ recipe.id }}">Szczegóły</a>
+      </li>
+    </ul>
+  </div>
+</div>

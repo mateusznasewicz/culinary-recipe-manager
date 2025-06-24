@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<AuthResponse> {
-    const loginData: LoginRequest = {username, password};
+    const loginData: LoginRequest = { username, password };
 
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, loginData, {
       headers: new HttpHeaders({
@@ -53,7 +53,8 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('username', username);
           this.currentUserSubject.next(username);
-          console.log('Token saved:', response.token); // Debugowanie
+          console.log('Token saved:', response.token);
+          this.checkAdminStatus(); // Sprawdzenie roli po zalogowaniu
         }
       })
     );
@@ -65,8 +66,14 @@ export class AuthService {
     return this.http.post<string>(`${this.apiUrl}/register`, registerData, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      }), responseType: "text" as "json"
-    });
+      }), responseType: 'text' as 'json'
+    }).pipe(
+      tap(() => {
+        localStorage.setItem('username', username);
+        this.currentUserSubject.next(username);
+        this.checkAdminStatus(); // Sprawdzenie roli po rejestracji
+      })
+    );
   }
 
   logout(): void {
@@ -78,19 +85,19 @@ export class AuthService {
   isLoggedIn(): boolean {
     const token = this.getToken();
     const isLogged = !!token;
-    console.log('Is logged in:', isLogged, 'Token exists:', !!token); // Debugowanie
+    console.log('Is logged in:', isLogged, 'Token exists:', !!token);
     return isLogged;
   }
 
   getToken(): string | null {
     const token = localStorage.getItem('token');
-    console.log('Retrieved token:', token); // Debugowanie
+    console.log('Retrieved token:', token);
     return token;
   }
 
   getCurrentUsername(): string | null {
     const username = localStorage.getItem('username');
-    console.log('Retrieved username:', username); // Debugowanie
+    console.log('Retrieved username:', username);
     return username;
   }
 
@@ -106,6 +113,7 @@ export class AuthService {
     }
     return null;
   }
+
   getCurrentUsernameFromToken(): string | null {
     const token = this.getToken();
     if (token) {
@@ -120,5 +128,23 @@ export class AuthService {
       }
     }
     return null;
+  }
+
+  isAdmin(): boolean {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token);
+        return decoded.role === 'admin'; // Zakładając, że rola jest w tokenie
+      } catch (error) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  checkAdminStatus() {
+    this.currentUserSubject.next(this.getCurrentUsername());
+    console.log('Admin status checked:', this.isAdmin());
   }
 }

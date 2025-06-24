@@ -36,7 +36,10 @@ export class RecipeService {
     return this.http.get(`${this.apiUrl}?${params}&page=${page}&size=${size}`);
   }
 
-
-
-
+  getRecipesByUserId(userId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(`${this.apiUrl}/user/${userId}`, { headers });
+  }
 }
