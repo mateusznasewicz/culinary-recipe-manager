@@ -66,7 +66,6 @@ export class RecipeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const recipeId = this.route.snapshot.paramMap.get('id');
-    console.log('Recipe ID from URL:', recipeId); // Debugowanie recipeId
     if (recipeId) {
       this.loadRecipeDetails(recipeId);
       this.loadReviews(recipeId);
@@ -80,8 +79,7 @@ export class RecipeDetailsComponent implements OnInit {
     this.isLoading = true;
     this.recipeService.getRecipeDetails(id).subscribe({
       next: (data) => {
-        console.log('Raw data from backend:', data); // Logowanie surowych danych
-        // Obsługa różnych nazw pola id
+        console.log('Raw data from backend:', data);
         const recipeId = data.id || data.recipeId || data._id || id;
         if (!recipeId) {
           console.error('No valid ID found in recipe data');
