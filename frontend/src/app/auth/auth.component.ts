@@ -121,7 +121,7 @@ export class AuthComponent {
         next: (response) => {
           this.isSubmitting = false;
           console.log(response)
-naviga          this.router.navigate(['/search']);
+          this.router.navigate(['/search']);
         },
         error: (error) => {
           console.log(error)
