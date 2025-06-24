@@ -18,7 +18,7 @@ export interface IngredientUnit {
 })
 export class AdminService {
   private apiUrl = 'http://localhost:8080/api';
-
+  private adminApiUrl = 'http://localhost:8082/api';
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders(): HttpHeaders {
@@ -66,18 +66,18 @@ export class AdminService {
   }
 
   addIngredient(data: { name: string }): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/ingredient`, data, {
+    return this.http.post<string>(`${this.adminApiUrl}/ingredient`, data, {
       headers: this.getAuthHeaders(),
       responseType: 'text' as 'json'})
   }
 
   addUnit(data: { name: string }): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/unit`, data, { headers: this.getAuthHeaders(),
+    return this.http.post<string>(`${this.adminApiUrl}/unit`, data, { headers: this.getAuthHeaders(),
       responseType: 'text' as 'json' });
   }
 
   addTag(data: { name: string }): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/tag`, data, { headers: this.getAuthHeaders(),
+    return this.http.post<string>(`${this.adminApiUrl}/tag`, data, { headers: this.getAuthHeaders(),
       responseType: 'text' as 'json' });
   }
 }
