@@ -17,8 +17,8 @@ export interface IngredientUnit {
   providedIn: 'root'
 })
 export class AdminService {
-  private adminapiUrl = 'http://localhost:8080/api';
-  private apiUrl = 'http://localhost:8081/api'
+  private apiUrl = 'http://localhost:8080/api';
+
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders(): HttpHeaders {
@@ -42,64 +42,42 @@ export class AdminService {
   }
 
   updateIngredient(data: { id: number, name: string }): Observable<void> {
-    return this.http.put<void>(`${this.adminapiUrl}/ingredient`, data, {
-      headers: this.getAuthHeaders(),
-      params: { id: data.id.toString() }
-    });
+    throw new Error("Not implemented")
   }
 
   updateUnit(data: { id: number, name: string }): Observable<void> {
-    return this.http.put<void>(`${this.adminapiUrl}/unit`, data, {
-      headers: this.getAuthHeaders(),
-      params: { id: data.id.toString() }
-    });
+    throw new Error("Not implemented")
   }
 
   updateTag(data: { id: number, name: string }): Observable<void> {
-    return this.http.put<void>(`${this.adminapiUrl}/tag`, data, {
-      headers: this.getAuthHeaders(),
-      params: { id: data.id.toString() }
-    });
+    throw new Error("Not implemented")
   }
 
   deleteIngredient(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.adminapiUrl}/ingredient`, {
-      headers: this.getAuthHeaders(),
-      params: { id: id.toString() }
-    });
+    throw new Error("Not implemented")
   }
 
   deleteUnit(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.adminapiUrl}/unit`, {
-      headers: this.getAuthHeaders(),
-      params: { id: id.toString() }
-    });
+    throw new Error("Not implemented")
   }
 
   deleteTag(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.adminapiUrl}/tag`, {
-      headers: this.getAuthHeaders(),
-      params: { id: id.toString() }
-    });
+    throw new Error("Not implemented");
   }
-
+  
   addIngredient(data: { name: string }): Observable<string> {
-    return this.http.post<string>(`${this.adminapiUrl}/ingredient`, data, {
+    return this.http.post<string>(`${this.apiUrl}/ingredient`, data, { 
       headers: this.getAuthHeaders(),
       responseType: 'text' as 'json'})
   }
 
   addUnit(data: { name: string }): Observable<string> {
-    return this.http.post<string>(`${this.adminapiUrl}/unit`, data, {
-      headers: this.getAuthHeaders(),
-      responseType: 'text' as 'json'
-    });
+    return this.http.post<string>(`${this.apiUrl}/unit`, data, { headers: this.getAuthHeaders(),
+    responseType: 'text' as 'json' });
   }
 
   addTag(data: { name: string }): Observable<string> {
-    return this.http.post<string>(`${this.adminapiUrl}/tag`, data, {
-      headers: this.getAuthHeaders(),
-      responseType: 'text' as 'json'
-    });
+    return this.http.post<string>(`${this.apiUrl}/tag`, data, { headers: this.getAuthHeaders(),
+    responseType: 'text' as 'json' });
   }
 }
