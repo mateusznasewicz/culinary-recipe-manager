@@ -46,4 +46,11 @@ public class RecipeController {
         Page<RecipeDTO> dtoPage = recipeService.findByQuery(q, pageable);
         return ResponseEntity.ok(assembler.toModel(dtoPage));
     }
+    @GetMapping(params = "author")
+    public ResponseEntity<PagedModel<RecipeDTO>> getRecipesByAuthor(@RequestParam String author, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, PagedResourcesAssembler assembler) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<RecipeDTO> dtoPage = recipeService.findByAuthor(author, pageable);
+        return ResponseEntity.ok(assembler.toModel(dtoPage));
+    }
+
 }

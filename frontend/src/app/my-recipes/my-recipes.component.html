@@ -3,10 +3,12 @@
     <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Moje Przepisy</h2>
     <div *ngIf="recipes.length === 0" class="text-center text-gray-700 mb-8">Nie masz jeszcze żadnych przepisów.</div>
     <ul class="space-y-4">
-      <li *ngFor="let recipe of recipes" class="flex justify-between items-center p-4 rounded-md hover:bg-gray-100">
-        <span class="recipe-chip">{{ recipe.name }}</span>
-        <a class="culinary-btn-secondary" routerLink="/recipe/{{ recipe.id }}">Szczegóły</a>
-      </li>
+      <div *ngFor="let recipe of recipes" class="culinary-result-card">
+        <a [routerLink]="['/recipe', recipe.id]" class="text-xl font-semibold text-orange-600 hover:underline">{{ recipe.title }}</a>
+        <p class="text-gray-600">Autor: {{ recipe.author }}</p>
+        <p *ngIf="recipe.time" class="text-gray-600">Czas: {{ recipe.time }} min</p>
+        <p *ngIf="recipe.tags.length" class="text-gray-600">Tagi: {{ recipe.tags.join(', ') }}</p>
+      </div>
     </ul>
   </div>
 </div>

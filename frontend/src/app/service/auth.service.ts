@@ -54,7 +54,7 @@ export class AuthService {
           localStorage.setItem('username', username);
           this.currentUserSubject.next(username);
           console.log('Token saved:', response.token);
-          this.checkAdminStatus(); // Sprawdzenie roli po zalogowaniu
+          this.checkAdminStatus();
         }
       })
     );

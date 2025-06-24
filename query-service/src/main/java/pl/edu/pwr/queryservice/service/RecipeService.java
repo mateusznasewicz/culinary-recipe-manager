@@ -39,4 +39,9 @@ public class RecipeService {
         Page<Recipe> recipesPage = recipeRepository.findByQuery(query, pageable);
         return recipesPage.map(recipeMapper::toDTO);
     }
+
+    public Page<RecipeDTO> findByAuthor(String author, Pageable pageable) {
+        Page<Recipe> recipesPage = recipeRepository.findByAuthor(author, pageable);
+        return recipesPage.map(recipeMapper::toDTO);
+    }
 }

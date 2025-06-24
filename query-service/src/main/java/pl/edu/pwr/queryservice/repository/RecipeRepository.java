@@ -20,4 +20,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
             ORDER BY sim DESC
             """, nativeQuery = true)
     Page<Recipe> findByQuery(@Param("query") String query, Pageable pageable);
+    Page<Recipe> findByAuthor(String author, Pageable pageable);
 }
