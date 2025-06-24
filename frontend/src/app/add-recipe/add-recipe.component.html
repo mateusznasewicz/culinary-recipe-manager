@@ -3,7 +3,7 @@
   <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="space-y-4">
     <input type="text" formControlName="title" placeholder="Tytuł przepisu" class="culinary-input" />
 
-    <textarea formControlName="description" placeholder="Opis przepisu" class="culinary-input"></textarea>
+    <textarea formControlName="description" placeholder="Opis przepisu" class="recipe-textarea"></textarea>
 
     <select formControlName="difficulty" class="culinary-input">
       <option value="" disabled>Wybierz poziom trudności</option>
@@ -70,7 +70,7 @@
             />
             <textarea
               [formControl]="getFormControl(step.get('description'))"
-              class="culinary-input w-full mt-1"
+              class="recipe-textarea"
               placeholder="Opis kroku"
             ></textarea>
           </div>
@@ -85,7 +85,7 @@
       <ul class="space-y-2 mt-2">
         <li *ngFor="let ingredient of ingredientUnits.controls; let i = index" class="flex gap-2 items-start">
           <div class="w-full flex gap-2">
-            <div class="relative flex-1">
+            <div class="relative w-68">
               <input
                 type="text"
                 [formControl]="getFormControl(ingredient.get('ingredientName'))"
@@ -111,7 +111,7 @@
             <input
               type="number"
               [formControl]="getFormControl(ingredient.get('quantity'))"
-              class="culinary-input w-20"
+              class="culinary-input flex-1"
               placeholder="Ilość"
               step="0.01"
             />
