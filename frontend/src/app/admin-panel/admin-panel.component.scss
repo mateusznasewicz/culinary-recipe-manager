@@ -1,27 +1,7 @@
-.culinary-card {
-  @apply bg-base-200 shadow-xl rounded-2xl p-6 text-white;
-  animation: fadeInSlideUp 0.4s ease-out;
-}
+@use 'tailwindcss/base';
+@use 'tailwindcss/components';
+@use 'tailwindcss/utilities';
 
-.culinary-input {
-  @apply input input-bordered w-full max-w-xs;
-}
-
-.culinary-btn-primary {
-  @apply btn btn-primary;
-}
-
-.slide-in-up {
-  animation: fadeInSlideUp 0.4s ease-out;
-}
-
-@keyframes fadeInSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.recipe-chip-list {
+  @apply flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors;
 }
