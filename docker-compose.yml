@@ -1,0 +1,96 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: recipe_manager
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      PGHOST: postgres
+      PGDATABASE: recipe_manager
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      SPRING_JWT_SECRET: ZG9ja2VyLWRldi1qd3Qtc2VjcmV0LWtleS1hdC1sZWFzdC0zMi1ieXRlcy1sb25nIQ==
+      SPRING_R2DBC_URL: r2dbc:postgresql://postgres/recipe_manager
+      SPRING_R2DBC_USERNAME: postgres
+      SPRING_R2DBC_PASSWORD: postgres
+      ROUTES_QUERY_SERVICE_URI: http://query-service:8081
+      ROUTES_COMMAND_SERVICE_URI: http://command-service:8082
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  command-service:
+    build: ./command-service
+    ports:
+      - "8082:8082"
+    environment:
+      PGHOST: postgres
+      PGDATABASE: recipe_manager
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/recipe_manager
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_SQL_INIT_MODE: never
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  query-service:
+    build: ./query-service
+    ports:
+      - "8081:8081"
+    environment:
+      PGHOST: postgres
+      PGDATABASE: recipe_manager
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/recipe_manager
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - api-gateway
+
+volumes:
+  postgres-data:
