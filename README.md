@@ -239,6 +239,13 @@ The database uses a **dual-model design** reflecting the CQRS pattern:
 
 ---
 
+## 📫 Connect & Get in Touch  
+💻 **Portfolio:** [mateusznasewicz.dev](https://mateusznasewicz.dev)  
+📧 [mateusznasewicz@proton.me](mailto:mateusznasewicz@proton.me)  
+🔗 [LinkedIn](#)  
+
+---
+
 ## License
 
 This project was developed as a university course project. All rights reserved.
